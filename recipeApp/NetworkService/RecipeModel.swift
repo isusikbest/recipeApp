@@ -23,3 +23,6 @@ struct Dish: Decodable {
     let strArea: String
 }
 
+struct DishResponse: Decodable {
+    let dish: Dish
+}

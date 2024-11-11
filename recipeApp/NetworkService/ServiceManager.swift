@@ -11,7 +11,7 @@ import Foundation
 
 enum RecipeApi {
     case getCategories
-    case getDish
+    case getDish(id: String)
     case getDishByName(query: String)
 }
 
@@ -56,20 +56,6 @@ extension RecipeApi: TargetType {
 
 let provider = MoyaProvider<RecipeApi>()
 
-func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
-    provider.request(.getCategories) { result in
-        switch result {
-        case .success(let response):
-            do {
-                let categoriesResponse = try JSONDecoder().decode(CategoriesResponse.self, from: response.data)
-                completion(.success(categoriesResponse.categories))
-            } catch {
-                completion(.failure(error))
-            }
-        case .failure(let error):
-            completion(.failure(error))
-        }
-    }
-}
+
 
 
