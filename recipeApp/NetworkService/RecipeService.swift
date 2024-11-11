@@ -7,15 +7,11 @@
 import Moya
 import Foundation
 
-
-
-
 protocol RecipeServiceProtocol {
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void)
     func getDish(by id: String, completion: @escaping (Result<Dish, Error>) -> Void)
     func searchRecipes(query: String, completion: @escaping (Result<[Dish], Error>) -> Void)
 }
-
 
 class RecipeService: RecipeServiceProtocol {
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
@@ -66,5 +62,3 @@ class RecipeService: RecipeServiceProtocol {
         }
     }
 }
-
-
