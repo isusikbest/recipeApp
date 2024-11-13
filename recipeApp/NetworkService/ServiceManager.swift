@@ -16,7 +16,7 @@ enum RecipeApi {
 
 extension RecipeApi: TargetType {
     var baseURL: URL {
-        return URL(string:  "https://www.themealdb.com/api/json/v1/1")!
+        return URL(string: "https://www.themealdb.com/api/json/v1/1")!
     }
 
     var path: String {
@@ -46,10 +46,8 @@ extension RecipeApi: TargetType {
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         return ["Content-Type": "application/json"]
     }
 
 }
-
-let provider = MoyaProvider<RecipeApi>()
