@@ -7,8 +7,6 @@
 import Moya
 import Foundation
 
-let provider = MoyaProvider<RecipeApi>()
-
 protocol RecipeServiceProtocol {
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void)
     func getDish(by id: String, completion: @escaping (Result<Dish, Error>) -> Void)
@@ -16,6 +14,9 @@ protocol RecipeServiceProtocol {
 }
 
 class RecipeService: RecipeServiceProtocol {
+
+    private let provider = MoyaProvider<RecipeApi>()
+
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
         provider.request(.getCategories) { result in
             switch result {
