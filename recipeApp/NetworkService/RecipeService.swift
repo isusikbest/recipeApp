@@ -20,49 +20,48 @@ class RecipeService: RecipeServiceProtocol {
 
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
         provider.request(.getCategories) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let categoriesResponse = try self.decoder.decode(CategoriesResponse.self, from: response.data)
-                    completion(.success(categoriesResponse.categories))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
+
+            do {
+                let categories = try result
+                    .get()
+                    .map(CategoriesResponse.self, using: self.decoder)
+                    .categories
+                completion(.success(categories))
+            } catch {
                 completion(.failure(error))
             }
+
         }
     }
 
     func getDish(by id: String, completion: @escaping (Result<Dish, Error>) -> Void) {
         provider.request(.getDish(id: id)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let dishResponse = try self.decoder.decode(DishResponse.self, from: response.data)
-                    completion(.success(dishResponse.dish))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
+
+            do {
+                let dishResponse = try result
+                    .get()
+                    .map(DishResponse.self, using: self.decoder)
+                    .dish
+                completion(.success(dishResponse.self))
+            } catch {
                 completion(.failure(error))
             }
+
         }
     }
 
     func searchRecipes(query: String, completion: @escaping (Result<[Dish], Error>) -> Void) {
         provider.request(.getDishByName(query: query)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let dishes = try self.decoder.decode([Dish].self, from: response.data)
-                    completion(.success(dishes))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
+
+            do {
+                let dishes = try result
+                    .get()
+                    .map([Dish].self, using: self.decoder)
+                completion(.success(dishes))
+            } catch {
                 completion(.failure(error))
             }
+
         }
     }
 }
