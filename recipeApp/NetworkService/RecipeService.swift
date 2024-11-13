@@ -16,13 +16,14 @@ protocol RecipeServiceProtocol {
 class RecipeService: RecipeServiceProtocol {
 
     private let provider = MoyaProvider<RecipeApi>()
+    private let decoder = JSONDecoder()
 
     func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
         provider.request(.getCategories) { result in
             switch result {
             case .success(let response):
                 do {
-                    let categoriesResponse = try JSONDecoder().decode(CategoriesResponse.self, from: response.data)
+                    let categoriesResponse = try self.decoder.decode(CategoriesResponse.self, from: response.data)
                     completion(.success(categoriesResponse.categories))
                 } catch {
                     completion(.failure(error))
@@ -38,7 +39,7 @@ class RecipeService: RecipeServiceProtocol {
             switch result {
             case .success(let response):
                 do {
-                    let dishResponse = try JSONDecoder().decode(DishResponse.self, from: response.data)
+                    let dishResponse = try self.decoder.decode(DishResponse.self, from: response.data)
                     completion(.success(dishResponse.dish))
                 } catch {
                     completion(.failure(error))
@@ -54,7 +55,7 @@ class RecipeService: RecipeServiceProtocol {
             switch result {
             case .success(let response):
                 do {
-                    let dishes = try JSONDecoder().decode([Dish].self, from: response.data)
+                    let dishes = try self.decoder.decode([Dish].self, from: response.data)
                     completion(.success(dishes))
                 } catch {
                     completion(.failure(error))
