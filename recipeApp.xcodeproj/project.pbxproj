@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C080E36B2CD3DDEE008C93F7 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = C080E36A2CD3DDEE008C93F7 /* SnapKit-Dynamic */; };
 		C080E38E2CD3E149008C93F7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = C080E38D2CD3E149008C93F7 /* Then */; };
+		C0A744B12CE1DCFC0036569E /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0A744B02CE1DCFC0036569E /* Moya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			files = (
 				C080E36B2CD3DDEE008C93F7 /* SnapKit-Dynamic in Frameworks */,
 				C080E38E2CD3E149008C93F7 /* Then in Frameworks */,
+				C0A744B12CE1DCFC0036569E /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +90,7 @@
 			packageProductDependencies = (
 				C080E36A2CD3DDEE008C93F7 /* SnapKit-Dynamic */,
 				C080E38D2CD3E149008C93F7 /* Then */,
+				C0A744B02CE1DCFC0036569E /* Moya */,
 			);
 			productName = recipeApp;
 			productReference = C0F6D9842CD3AE350025BEA7 /* recipeApp.app */;
@@ -120,6 +123,7 @@
 			packageReferences = (
 				C080E3692CD3DDEE008C93F7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				C080E38C2CD3E149008C93F7 /* XCRemoteSwiftPackageReference "Then" */,
+				C0A744AF2CE1DCFC0036569E /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C0F6D9852CD3AE350025BEA7 /* Products */;
@@ -387,6 +391,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		C0A744AF2CE1DCFC0036569E /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -399,6 +411,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C080E38C2CD3E149008C93F7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		C0A744B02CE1DCFC0036569E /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0A744AF2CE1DCFC0036569E /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
