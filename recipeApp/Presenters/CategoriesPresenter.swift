@@ -8,18 +8,21 @@
 import Foundation
 
 protocol CategoriesPresenterProtocol {
-    init(view: CategoriesView, data: CategoriesResponse)
+    init(view: CategoriesViewProtocol, data: CategoriesResponse)
 }
 
 class CategoriesPresenter: CategoriesPresenterProtocol {
     
-    let view: CategoriesView
+    unowned let view: CategoriesView
     let data: CategoriesResponse
-    
-    required init(view: CategoriesView, data: CategoriesResponse) {
-        self.view = view
+    required init(view: CategoriesViewProtocol, data: CategoriesResponse) {
+        self.view = view as! CategoriesView
         self.data = data
     }
+    
+  
+    
+    
     
     
 }
