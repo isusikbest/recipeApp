@@ -42,7 +42,7 @@ class RecipeService: RecipeServiceProtocol {
                     .get()
                     .map(DishResponse.self, using: self.decoder)
                     .dish
-                completion(.success(dishResponse.self))
+                completion(.success(dishResponse))
             } catch {
                 completion(.failure(error))
             }
