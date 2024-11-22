@@ -22,7 +22,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     
     private var data: [String] = []
     
-    var presenter = CategoriesPresenter.self
+    var presenter = CategoriesPresenter?.self
     
     override func viewDidLoad() {
         super.viewDidLoad()
