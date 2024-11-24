@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewController = CategoriesView()
         let presenter = CategoriesPresenter(view: viewController, data: data)
         viewController.presenter = presenter
+        presenter.loadCategories()
 
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
