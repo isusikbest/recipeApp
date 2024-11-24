@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol CategoriesPresenterProtocol {
     init(view: CategoriesViewProtocol, data: RecipeServiceProtocol)
 }

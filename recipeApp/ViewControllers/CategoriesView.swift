@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol CategoriesViewProtocol: AnyObject {
-    func showData(data:[String])
+    func showData(data: [String])
 }
 
 class CategoriesView: UIViewController, UITableViewDelegate {
@@ -22,11 +22,12 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     
     private var data: [String] = []
     
-    var presenter = CategoriesPresenter?()
+    var presenter: CategoriesPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupTableViewLayout()
     }
     
     func setupTableView() {
@@ -36,16 +37,22 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
         tableView.frame = view.bounds
     }
-}
-extension CategoriesView: CategoriesViewProtocol {
-        func showData(data: [String]) {
-            self.data = data
-            tableView.reloadData()
+    func setupTableViewLayout() {
+        tableView.snp.makeConstraints { make in
+            make.bottom.top.leading.trailing.equalToSuperview()
         }
         
+    }
+}
         
+extension CategoriesView: CategoriesViewProtocol {
+    func showData(data: [String]) {
+        self.data = data
+        tableView.reloadData()
         
     }
+}
+
 extension CategoriesView: UITableViewDataSource {
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return data.count
@@ -57,6 +64,4 @@ extension CategoriesView: UITableViewDataSource {
             return cell
         }
         
-        
     }
-
