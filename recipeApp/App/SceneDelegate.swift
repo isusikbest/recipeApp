@@ -14,17 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        let data = RecipeService()
-        let viewController = CategoriesView()
-        let presenter = CategoriesPresenter(view: viewController, data: data)
-        viewController.presenter = presenter
-        presenter.loadCategories()
-
+        
+        let factory = ScreensFactory()
+        let categoriesScreen = factory.createRecipeScreen()
+       
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-        window?.rootViewController = UINavigationController(rootViewController: viewController)
-        
+        window?.rootViewController = UINavigationController(rootViewController: categoriesScreen)
     }
 }

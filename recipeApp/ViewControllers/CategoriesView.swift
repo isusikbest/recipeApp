@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Then
 
 protocol CategoriesViewProtocol: AnyObject {
     func showData(data: [String])
@@ -14,11 +15,11 @@ protocol CategoriesViewProtocol: AnyObject {
 
 class CategoriesView: UIViewController, UITableViewDelegate {
     
-    var tableView: UITableView = {
-        let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
+    private let tableView = UITableView().then {
+      $0.backgroundColor = .clear
+      $0.separatorStyle = .none
+      $0.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
+    }
     
     private var data: [String] = []
     
@@ -28,15 +29,15 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         setupTableView()
         setupTableViewLayout()
+        presenter?.loadCategories()
     }
     
     func setupTableView() {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
-        tableView.frame = view.bounds
     }
+    
     func setupTableViewLayout() {
         tableView.snp.makeConstraints { make in
             make.bottom.top.leading.trailing.equalToSuperview()

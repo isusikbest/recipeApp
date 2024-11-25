@@ -8,21 +8,21 @@
 import Foundation
 
 protocol CategoriesPresenterProtocol {
-    init(view: CategoriesViewProtocol, data: RecipeServiceProtocol)
+    init(view: CategoriesViewProtocol, service: RecipeServiceProtocol)
 }
 
 class CategoriesPresenter: CategoriesPresenterProtocol {
     
-    private let view: CategoriesViewProtocol
-    private let data: RecipeServiceProtocol
+    private unowned let view: CategoriesViewProtocol
+    private let service: RecipeServiceProtocol
    
-    required init(view: CategoriesViewProtocol, data: RecipeServiceProtocol) {
+    required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol) {
         self.view = view
-        self.data = data
+        self.service = service
     }
 
     func loadCategories() {
-        data.getCategories { result in
+        service.getCategories { result in
             switch result {
             case .success(let categories):
                 let categoryNames = categories.map {$0.strCategory}
