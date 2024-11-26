@@ -40,7 +40,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     
     func setupTableViewLayout() {
         tableView.snp.makeConstraints { make in
-            make.bottom.top.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
     }
