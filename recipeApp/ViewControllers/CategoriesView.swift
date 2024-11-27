@@ -64,5 +64,11 @@ extension CategoriesView: UITableViewDataSource {
             cell.textLabel?.text = data[indexPath.row]
             return cell
         }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCategory = data[indexPath.row]
+        let factory = ScreensFactory()
+        let dishesPageVC = factory.createDishesPage(for: selectedCategory)
+        navigationController?.pushViewController(dishesPageVC, animated: true)
+    }
         
     }
