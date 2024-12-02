@@ -19,10 +19,8 @@ struct CategoriesResponse: Decodable {
 struct Dish: Decodable {
     let idMeal: String
     let strMeal: String
-    let strCategory: String
-    let strArea: String
 }
 
 struct DishResponse: Decodable {
-    let dish: Dish
+    let meals: [Dish]
 }

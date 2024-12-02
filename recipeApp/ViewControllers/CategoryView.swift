@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import Then
 
-
 protocol CategoryViewProtocol: AnyObject {
     func showDishes(dishes: [String])
 }
@@ -24,7 +23,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         
         $0.collectionViewLayout = layout
         $0.backgroundColor = .clear
-        $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Dish")
+        $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Dishes")
     }
     private var dishes: [String] = []
     
@@ -63,12 +62,13 @@ extension CategoryView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Dish", for: indexPath)
-        cell.backgroundColor = .gray
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as? DishesByCategoryCell else {  fatalError("Failed to dequeue DishesByCategoryCell")
+        }
+        cell.configure(with: dishes[indexPath.row])
+        cell.backgroundColor = .black
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
-    
 }

@@ -41,8 +41,8 @@ class RecipeService: RecipeServiceProtocol {
             do {
                 let dishResponse = try result
                     .get()
-                    .map(DishResponse.self, using: self.decoder)
-                    .dish
+                    .map(Dish.self, using: self.decoder)
+                    .self
                 completion(.success(dishResponse))
             } catch {
                 completion(.failure(error))
@@ -69,10 +69,11 @@ class RecipeService: RecipeServiceProtocol {
         provider.request(.getDishByCategory(category: category)) { result in
             
             do {
-                let response = try result
+                let dishes = try result
                     .get()
                     .map(DishResponse.self, using: self.decoder)
-                completion(.success([response.dish]))
+                    .meals
+                completion(.success(dishes))
             } catch {
                 completion(.failure(error))
             }

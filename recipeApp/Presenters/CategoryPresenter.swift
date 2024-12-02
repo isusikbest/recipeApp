@@ -13,7 +13,7 @@ protocol CategoryPresenterProtocol {
 
 class CategoryPresenter: CategoryPresenterProtocol {
    
-    private unowned let view:  CategoryViewProtocol
+    private unowned let view: CategoryViewProtocol
     private let service: RecipeServiceProtocol
     private let category: String
     

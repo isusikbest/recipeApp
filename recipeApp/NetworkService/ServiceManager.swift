@@ -28,7 +28,7 @@ extension RecipeApi: TargetType {
             return "random.php"
         case .getDishByName:
             return "search.php?s=Arrabiata"
-        case .getDishByCategory(category: let category):
+        case .getDishByCategory:
             return "/filter.php"
         }
     }
