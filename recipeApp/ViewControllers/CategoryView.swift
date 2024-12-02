@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol CategoryViewProtocol: AnyObject {
-    func showDishes(dishes: [String])
+    func showDishes(dishes: [Dish])
 }
 
 class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
@@ -25,7 +25,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.backgroundColor = .clear
         $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Dishes")
     }
-    private var dishes: [String] = []
+    private var dishes: [Dish] = []
     
     var presenter: CategoryPresenter?
     
@@ -50,7 +50,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
 }
 
 extension CategoryView: CategoryViewProtocol {
-    func showDishes(dishes: [String]) {
+    func showDishes(dishes: [Dish]) {
         self.dishes = dishes
         collectionView.reloadData()
     }
