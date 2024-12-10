@@ -9,7 +9,6 @@ import UIKit
 import Then
 import SnapKit
 
-
 final class DishesByCategoryCell: UICollectionViewCell {
     
     private let imageView = UIImageView().then {
