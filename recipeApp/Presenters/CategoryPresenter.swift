@@ -28,7 +28,7 @@ class CategoryPresenter: CategoryPresenterProtocol {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let dishes):
-                    let disheNames = dishes.map {$0.strMeal}
+                    let disheNames = dishes
                     self?.view.showDishes(dishes: disheNames)
                 case .failure(let error):
                     print("Failed to fetch meals: \(error)")
