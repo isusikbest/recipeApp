@@ -42,7 +42,6 @@ class RecipeService: RecipeServiceProtocol {
                 let dishResponse = try result
                     .get()
                     .map(Dish.self, using: self.decoder)
-                    .self
                 completion(.success(dishResponse))
             } catch {
                 completion(.failure(error))

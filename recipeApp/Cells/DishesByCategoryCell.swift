@@ -24,7 +24,7 @@ final class DishesByCategoryCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
         setupTitle()
-        
+        setupCell()
     }
     func setupTitle() {
         titleLabel.snp.makeConstraints { make in
@@ -33,6 +33,11 @@ final class DishesByCategoryCell: UICollectionViewCell {
     }
     func configure(with dish: Dish) {
         titleLabel.text = dish.strMeal
+    }
+    func setupCell() {
+        self.backgroundColor = .white
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 2
     }
     
     required init?(coder: NSCoder) {

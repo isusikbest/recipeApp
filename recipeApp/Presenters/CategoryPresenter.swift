@@ -4,7 +4,6 @@
 //
 //  Created by Vladimir Liubarskiy on 27/11/2024.
 //
-import Foundation
 import UIKit
 
 protocol CategoryPresenterProtocol {

@@ -20,6 +20,9 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.collectionViewLayout = layout
         $0.backgroundColor = .clear
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
+        $0.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     private var dishes: [Dish] = []
     
@@ -28,7 +31,6 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupCollectionViewLayout()
         presenter?.loadDishes()
         view.backgroundColor = .white
     }
@@ -38,13 +40,6 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    func setupCollectionViewLayout() {
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-    }
-    
 }
 
 extension CategoryView: CategoryViewProtocol {
@@ -63,9 +58,6 @@ extension CategoryView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as? DishesByCategoryCell else {  fatalError("Failed to dequeue DishesByCategoryCell")
         }
         cell.configure(with: dishes[indexPath.row])
-        cell.backgroundColor = .white
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 2
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -73,6 +65,6 @@ extension CategoryView: UICollectionViewDataSource {
            let totalWidth = collectionView.bounds.width
            let spacing: CGFloat = 10
            let calculatedWidth = (totalWidth - (numberOfColumns - 1) * spacing) / numberOfColumns
-        return CGSize(width: calculatedWidth, height: calculatedWidth)
+           return CGSize(width: calculatedWidth, height: calculatedWidth)
     }
 }
