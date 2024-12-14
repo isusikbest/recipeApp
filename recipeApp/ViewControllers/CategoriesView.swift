@@ -30,6 +30,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         setupTableView()
         setupTableViewLayout()
         presenter?.loadCategories()
+        view.backgroundColor = .white
     }
     
     func setupTableView() {
@@ -62,7 +63,16 @@ extension CategoriesView: UITableViewDataSource {
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
             cell.textLabel?.text = data[indexPath.row]
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1.5
             return cell
         }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCategory = data[indexPath.row]
+        let factory = ScreensFactory()
+        let dishesPageVC = factory.createDishesPage(for: selectedCategory)
+        navigationController?.pushViewController(dishesPageVC, animated: true)
+        dishesPageVC.title = selectedCategory
+    }
         
     }

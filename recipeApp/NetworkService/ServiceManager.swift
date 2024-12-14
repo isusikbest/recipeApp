@@ -12,6 +12,7 @@ enum RecipeApi {
     case getCategories
     case getDish(id: String)
     case getDishByName(query: String)
+    case getDishByCategory(category: String)
 }
 
 extension RecipeApi: TargetType {
@@ -27,6 +28,8 @@ extension RecipeApi: TargetType {
             return "random.php"
         case .getDishByName:
             return "search.php?s=Arrabiata"
+        case .getDishByCategory:
+            return "/filter.php"
         }
     }
 
@@ -43,6 +46,8 @@ extension RecipeApi: TargetType {
             return .requestPlain
         case .getDishByName(let query):
             return .requestParameters(parameters: ["query": query], encoding: URLEncoding.queryString)
+        case .getDishByCategory(category: let category):
+            return .requestParameters(parameters: ["c": category], encoding: URLEncoding.queryString)
         }
     }
 

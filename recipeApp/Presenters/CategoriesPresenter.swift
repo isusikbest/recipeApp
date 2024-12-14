@@ -4,9 +4,6 @@
 //
 //  Created by Vladimir Liubarskiy on 18/11/2024.
 //
-
-import Foundation
-
 protocol CategoriesPresenterProtocol {
     init(view: CategoriesViewProtocol, service: RecipeServiceProtocol)
 }
