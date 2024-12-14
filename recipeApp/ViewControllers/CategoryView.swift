@@ -60,6 +60,15 @@ extension CategoryView: UICollectionViewDataSource {
         cell.configure(with: dishes[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedDish = dishes[indexPath.row]
+        let factory = ScreensFactory()
+        let dishPage = factory.createDishPage()
+        navigationController?.pushViewController(dishPage, animated: true)
+        dishPage.title = selectedDish.strMeal
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
            let numberOfColumns: CGFloat = 3
            let totalWidth = collectionView.bounds.width

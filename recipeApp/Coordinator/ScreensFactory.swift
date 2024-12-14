@@ -21,4 +21,10 @@ final class ScreensFactory {
         viewController.presenter = presenter
         return viewController
     }
+    func createDishPage() -> UIViewController {
+        let viewcontroller = DishView()
+        let presenter = DishPresenter(view: viewcontroller as! DishViewProtocol)
+        viewcontroller.presenter = presenter
+        return viewcontroller
+    }
 }
