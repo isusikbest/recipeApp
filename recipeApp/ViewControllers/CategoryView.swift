@@ -20,9 +20,8 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.collectionViewLayout = layout
         $0.backgroundColor = .clear
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
-        $0.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        $0.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
     }
     private var dishes: [Dish] = []
     
@@ -39,6 +38,10 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
     }
 }
 
@@ -64,9 +67,10 @@ extension CategoryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
         let factory = ScreensFactory()
-        let dishPage = factory.createDishPage()
-        navigationController?.pushViewController(dishPage, animated: true)
-        dishPage.title = selectedDish.strMeal
+        let dishPageVC = factory.createDishPage()
+        dishPageVC.titleLabel = selectedDish.strMeal
+        dishPageVC.id = selectedDish.idMeal
+        navigationController?.pushViewController(dishPageVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

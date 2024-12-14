@@ -6,11 +6,9 @@
 //
 import UIKit
 
-
 protocol DishPresenterProtocol {
     init(view: DishViewProtocol)
 }
-
 
 class DishPresenter: DishPresenterProtocol {
     
@@ -20,6 +18,6 @@ class DishPresenter: DishPresenterProtocol {
         self.view = view
     }
     func loadDish() {
-        
+       
     }
 }
