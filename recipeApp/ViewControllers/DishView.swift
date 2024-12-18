@@ -22,30 +22,33 @@ class DishView: UIViewController {
         $0.textColor = .black
         $0.textAlignment = .center
     }
+    
+    var presenter: DishPresenter?
+    var titleLabel: String?
+    var id: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(strLabel)
         view.addSubview(idLabel)
+        setupText()
+        setupLayout()
+    }
+    func setupLayout() {
         strLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         idLabel.snp.makeConstraints { make in
             make.top.equalTo(strLabel.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
-                             
-        }
-        if titleLabel == titleLabel {
-            strLabel.text = titleLabel
-        }
-        if idLabel == idLabel {
-            idLabel.text = "id:\(id ?? "Unknown")"
         }
     }
-    var presenter: DishPresenter?
-    var titleLabel: String?
-    var id: String?
+    func setupText() {
+        strLabel.text = titleLabel
+        idLabel.text = "id:\(id ?? "Unknown")"
+    }
 }
+
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
         self.titleLabel = dish.strMeal

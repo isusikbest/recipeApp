@@ -20,8 +20,6 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.collectionViewLayout = layout
         $0.backgroundColor = .clear
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
-//        $0.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
     }
     private var dishes: [Dish] = []
     
