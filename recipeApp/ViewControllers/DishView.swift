@@ -9,7 +9,7 @@ import SnapKit
 import Then
 
 protocol DishViewProtocol: AnyObject {
-   func showDish(dish: Dish)
+    func showDish(dish: Dish)
 }
 
 class DishView: UIViewController {
@@ -18,8 +18,9 @@ class DishView: UIViewController {
         $0.textColor = .black
     }
     private let idLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .systemFont(ofSize: 18)
         $0.textColor = .black
+        $0.textAlignment = .center
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +28,18 @@ class DishView: UIViewController {
         view.addSubview(strLabel)
         view.addSubview(idLabel)
         strLabel.snp.makeConstraints { make in
-            make.edges.centerY.equalToSuperview()
-            make.edges.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
         idLabel.snp.makeConstraints { make in
-            make.top.equalTo(strLabel as ConstraintRelatableTarget).offset(8)
+            make.top.equalTo(strLabel.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+                             
         }
         if titleLabel == titleLabel {
             strLabel.text = titleLabel
         }
         if idLabel == idLabel {
-            idLabel.text = id
+            idLabel.text = "id:\(id ?? "Unknown")"
         }
     }
     var presenter: DishPresenter?
