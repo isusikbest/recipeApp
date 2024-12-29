@@ -56,7 +56,7 @@ class DishView: UIViewController {
 
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
-        self.strLabel.text = dish.strMeal
-        self.idLabel.text = dish.idMeal
+        self.strLabel.text = dish.name
+        self.idLabel.text = dish.id
     }
 }

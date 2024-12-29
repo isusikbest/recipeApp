@@ -17,10 +17,16 @@ struct CategoriesResponse: Decodable {
 }
 
 struct Dish: Decodable {
-    let idMeal: String
-    let strMeal: String
+    let keyforDish: String
+    let id: String
+    let name: String
 }
 
 struct DishResponse: Decodable {
     let meals: [Dish]
+}
+enum CodingKeys: String, CodingKey {
+    case keyforDish = "meals"
+    case id = "idMeal"
+    case name = "strMeal"
 }

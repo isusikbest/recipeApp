@@ -65,7 +65,7 @@ extension CategoryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
         let factory = ScreensFactory()
-        let dishPageVC = factory.createDishPage(by: selectedDish.idMeal)
+        let dishPageVC = factory.createDishPage(by: selectedDish.id)
         navigationController?.pushViewController(dishPageVC, animated: true)
     }
     
