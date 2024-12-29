@@ -14,28 +14,28 @@ protocol DishViewProtocol: AnyObject {
 
 class DishView: UIViewController {
     
-    private let strLabel = UILabel().then {
+    private var strLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 24)
         $0.textColor = .black
     }
-    private let idLabel = UILabel().then {
+    private var idLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18)
         $0.textColor = .black
         $0.textAlignment = .center
     }
     
     var presenter: DishPresenter?
-    var titleLabel: String?
-    var id: String?
-    
+//    var titleLabel: String?
+//    var id: String?
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(strLabel)
         view.addSubview(idLabel)
-        presenter?.loadDish()
-        setupText()
+//        setupText()
         setupLayout()
+        presenter?.loadDish()
     }
     
     func setupLayout() {
@@ -47,16 +47,16 @@ class DishView: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
-    
-    func setupText() {
-        strLabel.text = titleLabel
-        idLabel.text = "id:\(id ?? "Unknown")"
-    }
+//    
+//    func setupText() {
+//        strLabel.text = titleLabel
+//        idLabel.text = "id:\(id ?? "Unknown")"
+//    }
 }
 
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
-        self.titleLabel = dish.strMeal
-        self.id = dish.idMeal
+        self.strLabel.text = dish.strMeal
+        self.idLabel.text = dish.idMeal
     }
 }

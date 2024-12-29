@@ -23,11 +23,6 @@ class DishPresenter: DishPresenterProtocol {
         self.id = id
     }
     
-    func presentDish() {
-        guard let dish = dish else { return }
-        view.showDish(dish: dish)
-    }
-    
     func loadDish() {
         service.getDish(by: id) { result in
             switch result {
