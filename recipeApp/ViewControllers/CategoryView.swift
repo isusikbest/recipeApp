@@ -68,7 +68,6 @@ extension CategoryView: UICollectionViewDataSource {
         let dishPageVC = factory.createDishPage(by: selectedDish.idMeal)
         
         
-        
 //        dishPageVC.titleLabel = selectedDish.strMeal
 //        dishPageVC.id = selectedDish.idMeal
         navigationController?.pushViewController(dishPageVC, animated: true)

@@ -7,7 +7,7 @@
 import UIKit
 
 protocol DishPresenterProtocol {
-    init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String, dish: Dish)
+    init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String)
 }
 
 class DishPresenter: DishPresenterProtocol {
@@ -17,11 +17,15 @@ class DishPresenter: DishPresenterProtocol {
     private let id: String
     var dish: Dish?
     
-    required init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String, dish: Dish) {
+    required init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String) {
         self.view = view
         self.service = service
         self.id = id
-        self.dish = dish
+    }
+    
+    func presentDish() {
+        guard let dish = dish else { return }
+        view.showDish(dish: dish)
     }
     
     func loadDish() {
