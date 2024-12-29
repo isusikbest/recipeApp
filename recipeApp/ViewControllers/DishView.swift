@@ -13,6 +13,7 @@ protocol DishViewProtocol: AnyObject {
 }
 
 class DishView: UIViewController {
+    
     private let strLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 24)
         $0.textColor = .black
@@ -26,14 +27,17 @@ class DishView: UIViewController {
     var presenter: DishPresenter?
     var titleLabel: String?
     var id: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(strLabel)
         view.addSubview(idLabel)
+        presenter?.loadDish()
         setupText()
         setupLayout()
     }
+    
     func setupLayout() {
         strLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -43,6 +47,7 @@ class DishView: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
+    
     func setupText() {
         strLabel.text = titleLabel
         idLabel.text = "id:\(id ?? "Unknown")"
