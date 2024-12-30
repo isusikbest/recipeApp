@@ -19,9 +19,6 @@ struct CategoriesResponse: Decodable {
 struct Dish: Decodable {
     let idMeal: String
     let strMeal: String
-//    let strCategory: String
-//    let strInstructions: String
-//    let strMealThumb: String
 }
 
 struct DishResponse: Decodable {
