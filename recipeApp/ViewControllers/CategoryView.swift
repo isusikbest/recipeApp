@@ -14,6 +14,7 @@ protocol CategoryViewProtocol: AnyObject {
 }
 
 class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -21,6 +22,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.backgroundColor = .clear
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
     }
+    
     private var dishes: [Dish] = []
     
     var presenter: CategoryPresenter?
@@ -65,7 +67,7 @@ extension CategoryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
         let factory = ScreensFactory()
-        let dishPageVC = factory.createDishPage(by: selectedDish.id)
+        let dishPageVC = factory.createDishPage(by: selectedDish.idMeal)
         navigationController?.pushViewController(dishPageVC, animated: true)
     }
     

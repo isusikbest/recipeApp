@@ -18,6 +18,7 @@ class DishView: UIViewController {
         $0.font = .systemFont(ofSize: 24)
         $0.textColor = .black
     }
+    
     private var idLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18)
         $0.textColor = .black
@@ -25,15 +26,12 @@ class DishView: UIViewController {
     }
     
     var presenter: DishPresenter?
-//    var titleLabel: String?
-//    var id: String?
-//    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(strLabel)
         view.addSubview(idLabel)
-//        setupText()
         setupLayout()
         presenter?.loadDish()
     }
@@ -47,16 +45,11 @@ class DishView: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
-//    
-//    func setupText() {
-//        strLabel.text = titleLabel
-//        idLabel.text = "id:\(id ?? "Unknown")"
-//    }
 }
 
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
-        self.strLabel.text = dish.name
-        self.idLabel.text = dish.id
+        self.strLabel.text = dish.strMeal
+        self.idLabel.text = dish.idMeal
     }
 }

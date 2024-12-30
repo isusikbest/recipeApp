@@ -32,7 +32,7 @@ final class DishesByCategoryCell: UICollectionViewCell {
         }
     }
     func configure(with dish: Dish) {
-        titleLabel.text = dish.name
+        titleLabel.text = dish.strMeal
     }
     func setupCell() {
         self.backgroundColor = .white

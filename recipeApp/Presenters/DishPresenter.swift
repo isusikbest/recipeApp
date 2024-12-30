@@ -15,7 +15,6 @@ class DishPresenter: DishPresenterProtocol {
     private unowned var view: DishViewProtocol
     private let service: RecipeServiceProtocol
     private let id: String
-    var dish: Dish?
     
     required init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String) {
         self.view = view
