@@ -41,12 +41,12 @@ class RecipeService: RecipeServiceProtocol {
             do {
                 let dishResponse = try result
                     .get()
-                    .map(Dish.self, using: self.decoder)
-                completion(.success(dishResponse))
+                    .map(DishResponse.self, using: self.decoder)
+                guard let dish = dishResponse.meals.first else {return}
+                completion(.success(dish))
             } catch {
                 completion(.failure(error))
             }
-            
         }
     }
     

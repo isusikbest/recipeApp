@@ -14,16 +14,15 @@ protocol CategoryViewProtocol: AnyObject {
 }
 
 class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         $0.collectionViewLayout = layout
         $0.backgroundColor = .clear
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
-        $0.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
+    
     private var dishes: [Dish] = []
     
     var presenter: CategoryPresenter?
@@ -39,6 +38,10 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
     }
 }
 
@@ -60,6 +63,14 @@ extension CategoryView: UICollectionViewDataSource {
         cell.configure(with: dishes[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedDish = dishes[indexPath.row]
+        let factory = ScreensFactory()
+        let dishPageVC = factory.createDishPage(by: selectedDish.idMeal)
+        navigationController?.pushViewController(dishPageVC, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
            let numberOfColumns: CGFloat = 3
            let totalWidth = collectionView.bounds.width

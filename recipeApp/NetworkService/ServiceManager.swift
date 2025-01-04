@@ -25,7 +25,7 @@ extension RecipeApi: TargetType {
         case .getCategories:
             return "/categories.php"
         case .getDish:
-            return "random.php"
+            return "/lookup.php"
         case .getDishByName:
             return "search.php?s=Arrabiata"
         case .getDishByCategory:
@@ -41,9 +41,9 @@ extension RecipeApi: TargetType {
         switch self {
         case .getCategories:
             return .requestPlain
-
-        case .getDish:
-            return .requestPlain
+        case .getDish(let id):
+            return .requestParameters(parameters: ["i": id], encoding:
+                URLEncoding.queryString)
         case .getDishByName(let query):
             return .requestParameters(parameters: ["query": query], encoding: URLEncoding.queryString)
         case .getDishByCategory(category: let category):
