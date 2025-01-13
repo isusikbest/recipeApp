@@ -67,6 +67,7 @@ extension CategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
+        presenter?.coordinator?.showDisheDetails(by: selectedDish.idMeal)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

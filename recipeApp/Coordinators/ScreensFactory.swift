@@ -8,7 +8,7 @@ import UIKit
 
 final class ScreensFactory {
     
-    func createRecipeScreen(сoordinator: RecipeCoordinator) -> UIViewController {
+    func createRecipeScreen(coordinator: RecipeCoordinator) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoriesView()
         let presenter = CategoriesPresenter(view: viewController, service: service, coordinator: coordinator)
@@ -16,10 +16,10 @@ final class ScreensFactory {
         return viewController
     }
     
-    func createDishesPage(for category: String) -> UIViewController {
+    func createDishesPage(for category: String, coordinator: RecipeCoordinator) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoryView()
-        let presenter = CategoryPresenter(view: viewController, service: service, category: category)
+        let presenter = CategoryPresenter(view: viewController, service: service, category: category, coordinator: coordinator)
         viewController.presenter = presenter
         return viewController
     }

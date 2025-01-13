@@ -25,6 +25,9 @@ class TabBarCoordinator: Coordinator {
         categoriesCoordinator.start()
         
         let searchNavController = UINavigationController()
+        let searchCoordinator = SearchDishCoordinator(navigationController: searchNavController)
+        childCoordinators.append(searchCoordinator)
+        searchCoordinator.start()
         
         tabBarController.viewControllers = [categoriesNavController, searchNavController]
         tabBarController.tabBar.isTranslucent = false
