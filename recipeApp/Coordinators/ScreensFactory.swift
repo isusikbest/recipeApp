@@ -8,10 +8,10 @@ import UIKit
 
 final class ScreensFactory {
     
-    func createRecipeScreen() -> UIViewController {
+    func createRecipeScreen(сoordinator: RecipeCoordinator) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoriesView()
-        let presenter = CategoriesPresenter(view: viewController, service: service)
+        let presenter = CategoriesPresenter(view: viewController, service: service, coordinator: coordinator)
         viewController.presenter = presenter
         return viewController
     }

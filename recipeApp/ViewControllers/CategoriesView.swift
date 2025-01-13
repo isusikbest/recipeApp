@@ -24,8 +24,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     private var data: [String] = []
     
     var presenter: CategoriesPresenter?
-    weak var coordinator: RecipeCoordinator?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -70,7 +69,7 @@ extension CategoriesView: UITableViewDataSource {
         }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        coordinator?.showDishesBySelectedCategory(for: selectedCategory)
+        presenter?.coordinator?.showDishesBySelectedCategory(for: selectedCategory)
 //        let factory = ScreensFactory()
 //        let dishesPageVC = factory.createDishesPage(for: selectedCategory)
 //        navigationController?.pushViewController(dishesPageVC, animated: true)

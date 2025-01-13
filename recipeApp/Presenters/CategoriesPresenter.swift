@@ -5,17 +5,19 @@
 //  Created by Vladimir Liubarskiy on 18/11/2024.
 //
 protocol CategoriesPresenterProtocol {
-    init(view: CategoriesViewProtocol, service: RecipeServiceProtocol)
+    init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?)
 }
 
 class CategoriesPresenter: CategoriesPresenterProtocol {
-    
+
     private unowned let view: CategoriesViewProtocol
     private let service: RecipeServiceProtocol
+    var coordinator: RecipeCoordinator?
    
-    required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol) {
+    required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?) {
         self.view = view
         self.service = service
+        self.coordinator = coordinator
     }
 
     func loadCategories() {
