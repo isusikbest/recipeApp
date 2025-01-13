@@ -26,6 +26,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     private var dishes: [Dish] = []
     
     var presenter: CategoryPresenter?
+    weak var coordinator: RecipeCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +67,7 @@ extension CategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
-        let factory = ScreensFactory()
-        let dishPageVC = factory.createDishPage(by: selectedDish.idMeal)
-        navigationController?.pushViewController(dishPageVC, animated: true)
+        coordinator?.showDisheDetails(by: selectedDish.idMeal)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

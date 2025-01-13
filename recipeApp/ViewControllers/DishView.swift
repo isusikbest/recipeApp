@@ -26,6 +26,7 @@ class DishView: UIViewController {
     }
     
     var presenter: DishPresenter?
+    weak var coordinator: RecipeCoordinator?
   
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -23,7 +23,12 @@ class RecipeCoordinator: Coordinator {
         categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet"))
     }
     func showDishesBySelectedCategory(for category: String) {
-        let dishesVC = self.screensFactory.createDishesPage(for: category)
+        let dishesVC = screensFactory.createDishesPage(for: category)
         navigationController.pushViewController(dishesVC, animated: true)
+        dishesVC.title = category
+    }
+    func showDisheDetails(by id: String) {
+        let dishVC = screensFactory.createDishPage(by: id)
+        navigationController.pushViewController(dishVC, animated: true)
     }
 }
