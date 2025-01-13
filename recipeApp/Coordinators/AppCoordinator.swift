@@ -9,19 +9,17 @@ import UIKit
 
 class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
-    let navigationController: UINavigationController
+    let tabBarController: UITabBarController
     let screensFactory: ScreensFactory
     
-    init(navigationController: UINavigationController, screensFactory: ScreensFactory) {
-        self.navigationController = navigationController
+    init(tabBarController: UITabBarController, screensFactory: ScreensFactory) {
+        self.tabBarController = tabBarController
         self.screensFactory = screensFactory
     }
     
     func start() {
-        let tabBarController = UITabBarController()
         let tabBarCoordinator = TabBarCoordinator(tabBarController: tabBarController, screenFactory: screensFactory)
         childCoordinators.append(tabBarCoordinator)
         tabBarCoordinator.start()
-        navigationController.setViewControllers([tabBarController], animated: false)
     }
 }

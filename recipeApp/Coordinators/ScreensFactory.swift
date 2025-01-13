@@ -7,6 +7,7 @@
 import UIKit
 
 final class ScreensFactory {
+    
     func createRecipeScreen() -> UIViewController {
         let service = RecipeService()
         let viewController = CategoriesView()
@@ -14,6 +15,7 @@ final class ScreensFactory {
         viewController.presenter = presenter
         return viewController
     }
+    
     func createDishesPage(for category: String) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoryView()
@@ -21,6 +23,7 @@ final class ScreensFactory {
         viewController.presenter = presenter
         return viewController
     }
+    
     func createDishPage(by id: String) -> DishView {
         let service = RecipeService()
         let viewcontroller = DishView()
@@ -28,4 +31,11 @@ final class ScreensFactory {
         viewcontroller.presenter = presenter
         return viewcontroller
     }
+//    func createSearchPage() -> UIViewController {
+//        let service = RecipeService()
+//        let viewController = SearchView()
+//        let presenter = SearchPresenter(view: viewController, service: service)
+//        viewController.presenter = presenter
+//        return viewController
+//    }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategoriesCoordinator: Coordinator {
+class RecipeCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
     let screensFactory: ScreensFactory
@@ -20,5 +20,10 @@ class CategoriesCoordinator: Coordinator {
     func start() {
        let categoriesVC = self.screensFactory.createRecipeScreen()
         navigationController.pushViewController(categoriesVC, animated: true)
+        categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet"))
+    }
+    func showDishesBySelectedCategory(for category: String) {
+        let dishesVC = self.screensFactory.createDishesPage(for: category)
+        navigationController.pushViewController(dishesVC, animated: true)
     }
 }

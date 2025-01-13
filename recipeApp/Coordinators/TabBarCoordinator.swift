@@ -20,15 +20,19 @@ class TabBarCoordinator: Coordinator {
     
     func start() {
         let categoriesNavController = UINavigationController()
-        let categoriesCoordinator = CategoriesCoordinator(navigationController: categoriesNavController, screensFactory: screenFactory)
+        let categoriesCoordinator = RecipeCoordinator(navigationController: categoriesNavController, screensFactory: screenFactory)
         childCoordinators.append(categoriesCoordinator)
         categoriesCoordinator.start()
+        
         let searchNavController = UINavigationController()
+        
         tabBarController.viewControllers = [categoriesNavController, searchNavController]
-        tabBarController.tabBar.backgroundColor = .systemBackground
+        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.backgroundColor = .gray
         tabBarController.tabBar.tintColor = .white
-        tabBarController.tabBar.unselectedItemTintColor = .gray
+        tabBarController.tabBar.unselectedItemTintColor = .black
+        tabBarController.selectedIndex = 1
+        
         searchNavController.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
-        categoriesNavController.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet"))
     }
 }
