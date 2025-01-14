@@ -13,6 +13,7 @@ final class ScreensFactory {
         let viewController = CategoriesView()
         let presenter = CategoriesPresenter(view: viewController, service: service, coordinator: coordinator)
         viewController.presenter = presenter
+        viewController.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet"))
         return viewController
     }
     
@@ -21,6 +22,8 @@ final class ScreensFactory {
         let viewController = CategoryView()
         let presenter = CategoryPresenter(view: viewController, service: service, category: category, coordinator: coordinator)
         viewController.presenter = presenter
+        viewController.title = category
+        
         return viewController
     }
     

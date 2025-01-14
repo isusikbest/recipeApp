@@ -28,14 +28,19 @@ class TabBarCoordinator: Coordinator {
         let searchCoordinator = SearchDishCoordinator(navigationController: searchNavController)
         childCoordinators.append(searchCoordinator)
         searchCoordinator.start()
-        
         tabBarController.viewControllers = [categoriesNavController, searchNavController]
+        setupTabBar()
+        
+        searchNavController.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
+    }
+    func setupTabBar() {
         tabBarController.tabBar.isTranslucent = false
         tabBarController.tabBar.backgroundColor = .gray
         tabBarController.tabBar.tintColor = .white
         tabBarController.tabBar.unselectedItemTintColor = .black
         tabBarController.selectedIndex = 1
-        
-        searchNavController.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
     }
 }
+
+  
+

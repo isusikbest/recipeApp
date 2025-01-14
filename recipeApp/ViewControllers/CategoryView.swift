@@ -26,7 +26,6 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     private var dishes: [Dish] = []
     
     var presenter: CategoryPresenter?
-    weak var coordinator: RecipeCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +66,7 @@ extension CategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
-        presenter?.coordinator?.showDisheDetails(by: selectedDish.idMeal)
+        presenter?.showDishes(by: selectedDish.idMeal)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

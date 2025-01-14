@@ -18,15 +18,14 @@ class RecipeCoordinator: Coordinator {
     }
     
     func start() {
-        let categoriesVC = self.screensFactory.createRecipeScreen(coordinator: self)
-        navigationController.pushViewController(categoriesVC, animated: true)
-        categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet"))
+        let categorisVC =  self.screensFactory.createRecipeScreen(coordinator: self)
+        navigationController.pushViewController(categorisVC, animated: true)
     }
     
     func showDishesBySelectedCategory(for category: String) {
         let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self)
         navigationController.pushViewController(dishesVC, animated: true)
-        dishesVC.title = category
+       
     }
     
     func showDisheDetails(by id: String) {

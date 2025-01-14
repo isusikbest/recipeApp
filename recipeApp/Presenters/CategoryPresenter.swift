@@ -15,13 +15,17 @@ class CategoryPresenter: CategoryPresenterProtocol {
     private unowned let view: CategoryViewProtocol
     private let service: RecipeServiceProtocol
     private let category: String
-    var coordinator: RecipeCoordinator?
+    private let coordinator: RecipeCoordinator?
     
     required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: String, coordinator: RecipeCoordinator?) {
         self.view = view
         self.service = service
         self.category = category
         self.coordinator = coordinator
+    }
+    
+    func showDishes(by id: String) {
+        coordinator?.showDisheDetails(by: id)
     }
     
     func loadDishes() {

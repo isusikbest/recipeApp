@@ -12,12 +12,16 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
 
     private unowned let view: CategoriesViewProtocol
     private let service: RecipeServiceProtocol
-    var coordinator: RecipeCoordinator?
+    private let coordinator: RecipeCoordinator?
    
     required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?) {
         self.view = view
         self.service = service
         self.coordinator = coordinator
+    }
+    
+    func showCategories(for category: String) {
+        coordinator?.showDishesBySelectedCategory(for: category)
     }
 
     func loadCategories() {
