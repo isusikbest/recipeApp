@@ -11,16 +11,18 @@ import Moya
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var appCoordinator: AppCoordinator?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let factory = ScreensFactory()
-        let categoriesScreen = factory.createRecipeScreen()
-       
+        let screensFactory = ScreensFactory()
+        let tabBarController = UITabBarController()
+        appCoordinator = AppCoordinator(tabBarController: tabBarController, screensFactory: screensFactory)
+        appCoordinator?.start()
+        
         window = UIWindow(windowScene: windowScene)
-        window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-        window?.rootViewController = UINavigationController(rootViewController: categoriesScreen)
+        window?.rootViewController = tabBarController
     }
 }

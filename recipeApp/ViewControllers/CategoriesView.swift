@@ -24,7 +24,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     private var data: [String] = []
     
     var presenter: CategoriesPresenter?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -69,10 +69,6 @@ extension CategoriesView: UITableViewDataSource {
         }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        let factory = ScreensFactory()
-        let dishesPageVC = factory.createDishesPage(for: selectedCategory)
-        navigationController?.pushViewController(dishesPageVC, animated: true)
-        dishesPageVC.title = selectedCategory
+        presenter?.showCategories(for: selectedCategory)
     }
-        
-    }
+}
