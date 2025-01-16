@@ -25,7 +25,7 @@ class TabBarCoordinator: Coordinator {
         categoriesCoordinator.start()
         
         let searchNavController = UINavigationController()
-        let searchCoordinator = SearchDishCoordinator(navigationController: searchNavController)
+        let searchCoordinator = SearchDishCoordinator(navigationController: searchNavController, service: RecipeService(), screenFactory: screenFactory)
         childCoordinators.append(searchCoordinator)
         searchCoordinator.start()
         tabBarController.viewControllers = [categoriesNavController, searchNavController]
@@ -41,6 +41,3 @@ class TabBarCoordinator: Coordinator {
         tabBarController.selectedIndex = 1
     }
 }
-
-  
-

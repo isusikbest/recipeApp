@@ -10,13 +10,24 @@ import UIKit
 class SearchDishCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
+    let service: RecipeService
+    let screenFactory: ScreensFactory
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, service: RecipeService, screenFactory: ScreensFactory) {
         self.navigationController = navigationController
+        self.service = service
+        
+        self.screenFactory = screenFactory
+    }
+    
+    func showDetails(by id: String) {
+        let dishVC = screenFactory.createDishPage(by: id)
+        navigationController.pushViewController(dishVC, animated: true)
     }
     
     func start() {
-        let searchdishVC = SearchDishView()
+        let viewModel = SearchDishViewModel(service: service, coordinator: self)
+        let searchdishVC = SearchDishView(viewModel: viewModel)
         navigationController.pushViewController(searchdishVC, animated: true)
     }
 }
