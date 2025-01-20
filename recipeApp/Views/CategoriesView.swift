@@ -64,8 +64,8 @@ extension CategoriesView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-        let category = data[indexPath.row]
-        cell.configure(with: category, isFavorite: storage.isCategoryFavorite(category.id))
+        
+        cell.configure(with: data[indexPath.row])
         return cell
     }
     

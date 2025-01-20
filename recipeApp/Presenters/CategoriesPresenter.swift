@@ -32,6 +32,7 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
                 self.view.showData(data: categoryNames)
             case .failure(let error):
                 print("Something wrong: \(error.localizedDescription)")
+//                print(error.description)
             }
         }
     }

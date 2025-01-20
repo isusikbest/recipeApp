@@ -10,7 +10,7 @@ struct Category: Decodable {
     let strCategory: String
     let strCategoryThumb: String
     let strCategoryDescription: String
-    var isFavorite: Bool = false
+//    var isFavorite: Bool = false
 }
     struct CategoriesResponse: Decodable {
         let categories: [Category]
@@ -19,7 +19,7 @@ struct Category: Decodable {
     struct Dish: Decodable {
         let idMeal: String
         let strMeal: String
-        var isFavorite: Bool = false
+//        var isFavorite: Bool = false
     }
     
     struct DishResponse: Decodable {
