@@ -22,6 +22,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     }
     
     private var data: [String] = []
+    private var storage: FavoritesStorage!
     
     var presenter: CategoriesPresenter?
 
@@ -37,6 +38,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(CategoryCell.self, forCellReuseIdentifier: "CategoryCell")
     }
     
     func setupTableViewLayout() {
@@ -61,15 +63,20 @@ extension CategoriesView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 1.5
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
+        let category = data[indexPath.row]
+        cell.configure(with: category, isFavorite: storage.isCategoryFavorite(category.id))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
         presenter?.showCategories(for: selectedCategory)
+    }
+}
+
+extension String {
+    var id: String {
+        return self
     }
 }

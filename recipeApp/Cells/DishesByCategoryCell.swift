@@ -15,25 +15,42 @@ final class DishesByCategoryCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
+    
     private let titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14, weight: .medium)
         $0.textAlignment = .center
         $0.numberOfLines = 2
     }
+    
+    private let favoriteIcon = UIImageView().then {
+        $0.image = UIImage(systemName: "heart.fill")
+        $0.tintColor = .red
+        $0.isHidden = true
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
-        setupTitle()
+        setupUI()
         setupCell()
     }
-    func setupTitle() {
+    
+    func setupUI() {
         titleLabel.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
+        favoriteIcon.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+            make.width.height.equalTo(24)
+        }
     }
+    
     func configure(with dish: Dish) {
         titleLabel.text = dish.strMeal
+        favoriteIcon.isHidden = !dish.isFavorite
     }
+    
     func setupCell() {
         self.backgroundColor = .white
         self.layer.borderColor = UIColor.black.cgColor
