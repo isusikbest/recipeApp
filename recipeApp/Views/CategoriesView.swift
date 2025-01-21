@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 protocol CategoriesViewProtocol: AnyObject {
     func showData(data: [Category])
@@ -23,8 +24,8 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     
     private var data: [Category] = []
     private var storage: FavoritesStorage = FavoritesStorage()
-    
     var presenter: CategoriesPresenter?
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +33,13 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         setupTableViewLayout()
         presenter?.loadCategories()
         view.backgroundColor = .white
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+        presenter?.favoritsUpdate
+            .sink { [weak self] updateCategoryId in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
     }
 
     func setupTableView() {
@@ -53,7 +57,6 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     }
 }
 
-        
 extension CategoriesView: CategoriesViewProtocol {
     func showData(data: [Category]) {
         self.data = data
@@ -80,9 +83,4 @@ extension CategoriesView: UITableViewDataSource {
     }
 }
     
-extension CategoriesView: CategoryUpdateDelegate {
-    func didUpdateFavorites(for categoryId: String) {
-        tableView.reloadData()
-    }
-    
-}
+

@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 protocol CategoryViewProtocol: AnyObject {
     func showDishes(dishes: [Dish])
@@ -27,7 +28,8 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     var presenter: CategoryPresenter?
     private let storage: FavoritesStorage = FavoritesStorage()
     var category: Category?
-    var delegate: CategoryUpdateDelegate?
+    var favoritesUpdated = PassthroughSubject<String, Never>()
+    
     
     func configure(with category: Category, presenter: CategoryPresenter) {
             self.category = category
@@ -69,11 +71,9 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
                    storage.addCategoryToFavorites(category.idCategory)
                }
                setupFavoriteButton()
-        delegate?.didUpdateFavorites(for: category.idCategory)
+               favoritesUpdated.send(category.idCategory)
+        print("Signal sent")
            }
-}
-protocol CategoryUpdateDelegate: AnyObject {
-    func didUpdateFavorites(for categoryId: String)
 }
 
 

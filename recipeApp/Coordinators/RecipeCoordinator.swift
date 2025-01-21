@@ -25,9 +25,6 @@ class RecipeCoordinator: Coordinator {
     
     func showDishesBySelectedCategory(for category: Category) {
         let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self)
-        if let categoryView = dishesVC as? CategoryView {
-                categoryView.delegate = self
-            }
         navigationController.pushViewController(dishesVC, animated: true)
        
     }
@@ -37,10 +34,5 @@ class RecipeCoordinator: Coordinator {
         navigationController.pushViewController(dishVC, animated: true)
     }
 }
-extension RecipeCoordinator: CategoryUpdateDelegate {
-    func didUpdateFavorites(for categoryId: String) {
-        
-    }
-    
-    
-}
+
+
