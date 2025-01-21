@@ -26,7 +26,9 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     private var dishes: [Dish] = []
     var presenter: CategoryPresenter?
     private let storage: FavoritesStorage = FavoritesStorage()
-    private let category = presenter?.category
+    var category: Category?
+    
+
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +48,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     }
     
     func setupFavoriteButton() {
+        guard let category else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(
                     image: UIImage(systemName: storage.isCategoryFavorite(category.idCategory) ? "heart.fill" : "heart"),
                     style: .plain,
@@ -55,6 +58,7 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     }
     
     @objc func toggleFavorite() {
+        guard let category else { return }
         if storage.isCategoryFavorite(category.idCategory) {
                    storage.removeCategoryFromFavorites(category.idCategory)
                } else {
