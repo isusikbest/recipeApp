@@ -32,10 +32,6 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         presenter?.loadCategories()
         view.backgroundColor = .white
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        tableView.reloadData()
-//    }
 
     func setupTableView() {
         view.addSubview(tableView)
@@ -69,22 +65,18 @@ extension CategoriesView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
         let category = data[indexPath.row]
         let isFavorite = storage.isCategoryFavorite(category.idCategory)
-        print("Category: \(category.strCategory), isFavorite: \(isFavorite)")
         cell.configure(with: category.strCategory, isFavorite: isFavorite)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        presenter?.showDishes(for: selectedCategory)
-    }
-}
-extension CategoriesView: CategoryViewDelegate {
-    func didUpdateFavorites(for categoryId: String) {
-        print("Delegate called for category ID: \(categoryId)")
-        let updatedFavorites = FavoritesStorage.shared.isCategoryFavorite(categoryId)
-                print("Updated favorites for category ID: \(categoryId) -> \(updatedFavorites)")
-        tableView.reloadData()
+        presenter?.showDishes(for: selectedCategory, delegate: self)
     }
 }
 
+extension CategoriesView: CategoryViewDelegate {
+    func didUpdateFavorites(for categoryId: String) {
+        tableView.reloadData()
+    }
+}

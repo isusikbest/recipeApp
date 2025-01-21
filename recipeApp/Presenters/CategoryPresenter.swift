@@ -24,8 +24,8 @@ class CategoryPresenter: CategoryPresenterProtocol {
         self.coordinator = coordinator
     }
     
-    func showDishes(by id: String) {
-        coordinator?.showDisheDetails(by: id)
+    func showDishes(by id: String, delegate: DishViewDelegate) {
+        coordinator?.showDisheDetails(by: id, delegate: delegate)
     }
     
     func loadDishes() {

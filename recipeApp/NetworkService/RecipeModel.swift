@@ -25,4 +25,3 @@ struct Category: Decodable {
     struct DishResponse: Decodable {
         let meals: [Dish]
     }
-

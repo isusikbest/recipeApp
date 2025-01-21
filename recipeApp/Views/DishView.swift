@@ -12,7 +12,14 @@ protocol DishViewProtocol: AnyObject {
     func showDish(dish: Dish)
 }
 
+protocol DishViewDelegate: AnyObject {
+    func didUpdateDishFavorites(for dishId: String)
+}
+
 class DishView: UIViewController {
+    
+    var delegate: DishViewDelegate?
+    private let storage = FavoritesStorage.shared
     
     private var strLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 24)
@@ -24,7 +31,7 @@ class DishView: UIViewController {
         $0.textColor = .black
         $0.textAlignment = .center
     }
-    
+    var dish: Dish?
     var presenter: DishPresenter?
   
     override func viewDidLoad() {
@@ -36,6 +43,27 @@ class DishView: UIViewController {
         presenter?.loadDish()
     }
     
+    private func setupFavoriteButton() {
+        guard let dish = dish else { return }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: storage.isDishFavorite(dish.idMeal) ? "heart.fill" : "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleFavorite)
+        )
+    }
+    
+    @objc private func toggleFavorite() {
+           guard let dish = dish else { return }
+           if storage.isDishFavorite(dish.idMeal) {
+               storage.removeDishFromFavorites(dish.idMeal)
+           } else {
+               storage.addDishToFavorites(dish.idMeal)
+           }
+           setupFavoriteButton()
+           delegate?.didUpdateDishFavorites(for: dish.idMeal)
+       }
+
     func setupLayout() {
         strLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -49,7 +77,9 @@ class DishView: UIViewController {
 
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
+        self.dish = dish
         self.strLabel.text = dish.strMeal
         self.idLabel.text = dish.idMeal
+        setupFavoriteButton()
     }
 }

@@ -21,8 +21,8 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
         self.coordinator = coordinator
     }
     
-    func showDishes(for category: Category) {
-        coordinator?.showDishesBySelectedCategory(for: category)
+    func showDishes(for category: Category, delegate: CategoryViewDelegate) {
+        coordinator?.showDishesBySelectedCategory(for: category, delegate: delegate)
     }
 
     func loadCategories() {

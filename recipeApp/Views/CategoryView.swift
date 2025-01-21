@@ -69,13 +69,12 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         guard let category else { return }
         if storage.isCategoryFavorite(category.idCategory) {
             storage.removeCategoryFromFavorites(category.idCategory)
-               } else {
-                   storage.addCategoryToFavorites(category.idCategory)
-               }
-               setupFavoriteButton()
-        print("sending notification")
+        } else {
+            storage.addCategoryToFavorites(category.idCategory)
+        }
+        setupFavoriteButton()
         delegate?.didUpdateFavorites(for: category.idCategory)
-           }
+    }
 }
 
 extension CategoryView: CategoryViewProtocol {
@@ -93,13 +92,15 @@ extension CategoryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as? DishesByCategoryCell else {  fatalError("Failed to dequeue DishesByCategoryCell")
         }
-        cell.configure(with: dishes[indexPath.row])
+        let dish = dishes[indexPath.row]
+        let isFavorite = storage.isDishFavorite(dish.idMeal)
+        cell.configure(with: dish, isFavorite: isFavorite)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
-        presenter?.showDishes(by: selectedDish.idMeal)
+        presenter?.showDishes(by: selectedDish.idMeal, delegate: self)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -108,5 +109,11 @@ extension CategoryView: UICollectionViewDataSource {
            let spacing: CGFloat = 10
            let calculatedWidth = (totalWidth - (numberOfColumns - 1) * spacing) / numberOfColumns
            return CGSize(width: calculatedWidth, height: calculatedWidth)
+    }
+}
+
+extension CategoryView: DishViewDelegate {
+    func didUpdateDishFavorites(for dishId: String) {
+        collectionView.reloadData()
     }
 }

@@ -22,15 +22,16 @@ final class DishesByCategoryCell: UICollectionViewCell {
         $0.numberOfLines = 2
     }
     
-//    private let favoriteIcon = UIImageView().then {
-//        $0.image = UIImage(systemName: "heart.fill")
-//        $0.tintColor = .red
-//        $0.isHidden = true
-//    }
+    private let favoriteIcon = UIImageView().then {
+        $0.image = UIImage(systemName: "heart.fill")
+        $0.tintColor = .systemBlue
+        $0.isHidden = true
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(favoriteIcon)
         setupUI()
         setupCell()
     }
@@ -39,16 +40,15 @@ final class DishesByCategoryCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
-//        favoriteIcon.snp.makeConstraints { make in
-//            make.top.equalToSuperview().offset(8)
-//            make.trailing.equalToSuperview().offset(-8)
-//            make.width.height.equalTo(24)
-//        }
+        favoriteIcon.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview().inset(8)
+            make.width.height.equalTo(20)
+        }
     }
     
-    func configure(with dish: Dish) {
+    func configure(with dish: Dish, isFavorite: Bool) {
         titleLabel.text = dish.strMeal
-//        favoriteIcon.isHidden = !dish.isFavorite
+        favoriteIcon.isHidden = !isFavorite
     }
     
     func setupCell() {

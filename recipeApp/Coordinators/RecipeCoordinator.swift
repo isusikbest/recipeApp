@@ -14,7 +14,6 @@ class RecipeCoordinator: Coordinator {
     let navigationController: UINavigationController
     let screensFactory: ScreensFactory
     var cancellables = Set<AnyCancellable>()
-    let categoriesVC: CategoriesView = CategoriesView()
     
     init(navigationController: UINavigationController, screensFactory: ScreensFactory) {
         self.navigationController = navigationController
@@ -26,21 +25,13 @@ class RecipeCoordinator: Coordinator {
         navigationController.pushViewController(categorisVC, animated: true)
     }
     
-    func showDishesBySelectedCategory(for category: Category) {
-        if let categoriesVC = navigationController.topViewController as? CategoriesView {
-            print("Categories found")
-        } else {
-            print("CategoriesView is not set")
-            return
-        }
-        let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self, delegate: categoriesVC)
+    func showDishesBySelectedCategory(for category: Category, delegate: CategoryViewDelegate) {
+        let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self, delegate: delegate)
         navigationController.pushViewController(dishesVC, animated: true)
     }
     
-    func showDisheDetails(by id: String) {
-        let dishVC = screensFactory.createDishPage(by: id)
+    func showDisheDetails(by id: String, delegate: DishViewDelegate) {
+        let dishVC = screensFactory.createDishPage(by: id, delegate: delegate)
         navigationController.pushViewController(dishVC, animated: true)
     }
 }
-
-
