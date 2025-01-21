@@ -33,7 +33,11 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         presenter?.loadCategories()
         view.backgroundColor = .white
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+
     func setupTableView() {
         view.addSubview(tableView)
         tableView.dataSource = self
@@ -48,6 +52,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         
     }
 }
+
         
 extension CategoriesView: CategoriesViewProtocol {
     func showData(data: [Category]) {
@@ -73,4 +78,11 @@ extension CategoriesView: UITableViewDataSource {
         let selectedCategory = data[indexPath.row]
         presenter?.showCategories(for: selectedCategory)
     }
+}
+    
+extension CategoriesView: CategoryUpdateDelegate {
+    func didUpdateFavorites(for categoryId: String) {
+        tableView.reloadData()
+    }
+    
 }

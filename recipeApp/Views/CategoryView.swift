@@ -27,9 +27,13 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     var presenter: CategoryPresenter?
     private let storage: FavoritesStorage = FavoritesStorage()
     var category: Category?
+    var delegate: CategoryUpdateDelegate?
     
-
-     
+    func configure(with category: Category, presenter: CategoryPresenter) {
+            self.category = category
+            self.presenter = presenter
+        }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -60,12 +64,16 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     @objc func toggleFavorite() {
         guard let category else { return }
         if storage.isCategoryFavorite(category.idCategory) {
-                   storage.removeCategoryFromFavorites(category.idCategory)
+            storage.removeCategoryFromFavorites(category.idCategory)
                } else {
                    storage.addCategoryToFavorites(category.idCategory)
                }
                setupFavoriteButton()
+        delegate?.didUpdateFavorites(for: category.idCategory)
            }
+}
+protocol CategoryUpdateDelegate: AnyObject {
+    func didUpdateFavorites(for categoryId: String)
 }
 
 

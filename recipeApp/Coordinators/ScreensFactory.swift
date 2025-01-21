@@ -17,12 +17,13 @@ final class ScreensFactory {
         return viewController
     }
     
-    func createDishesPage(for category: String, coordinator: RecipeCoordinator) -> UIViewController {
+    func createDishesPage(for category: Category, coordinator: RecipeCoordinator) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoryView()
         let presenter = CategoryPresenter(view: viewController, service: service, category: category, coordinator: coordinator)
+        viewController.configure(with: category, presenter: presenter)
         viewController.presenter = presenter
-        viewController.title = category
+        viewController.title = category.strCategory
         
         return viewController
     }

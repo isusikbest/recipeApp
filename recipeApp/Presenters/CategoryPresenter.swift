@@ -7,7 +7,7 @@
 import UIKit
 
 protocol CategoryPresenterProtocol {
-    init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: String, coordinator: RecipeCoordinator?)
+    init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?)
 }
 
 class CategoryPresenter: CategoryPresenterProtocol {
@@ -17,10 +17,10 @@ class CategoryPresenter: CategoryPresenterProtocol {
     let category: String
     private let coordinator: RecipeCoordinator?
     
-    required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: String, coordinator: RecipeCoordinator?) {
+    required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?) {
         self.view = view
         self.service = service
-        self.category = category
+        self.category = category.strCategory
         self.coordinator = coordinator
     }
     

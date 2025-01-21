@@ -8,6 +8,7 @@
 import UIKit
 
 class RecipeCoordinator: Coordinator {
+    
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
     let screensFactory: ScreensFactory
@@ -22,8 +23,11 @@ class RecipeCoordinator: Coordinator {
         navigationController.pushViewController(categorisVC, animated: true)
     }
     
-    func showDishesBySelectedCategory(for category: String) {
+    func showDishesBySelectedCategory(for category: Category) {
         let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self)
+        if let categoryView = dishesVC as? CategoryView {
+                categoryView.delegate = self
+            }
         navigationController.pushViewController(dishesVC, animated: true)
        
     }
@@ -32,4 +36,11 @@ class RecipeCoordinator: Coordinator {
         let dishVC = screensFactory.createDishPage(by: id)
         navigationController.pushViewController(dishVC, animated: true)
     }
+}
+extension RecipeCoordinator: CategoryUpdateDelegate {
+    func didUpdateFavorites(for categoryId: String) {
+        
+    }
+    
+    
 }

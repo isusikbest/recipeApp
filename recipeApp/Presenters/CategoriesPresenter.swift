@@ -21,14 +21,14 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
     }
     
     func showCategories(for category: Category) {
-        coordinator?.showDishesBySelectedCategory(for: category.strCategory)
+        coordinator?.showDishesBySelectedCategory(for: category)
     }
 
     func loadCategories() {
         service.getCategories { result in
             switch result {
             case .success(let categories):
-                let categoryNames = categories.map {$0.strCategory}
+//                _ = categories.map {$0.strCategory}
                 self.view.showData(data: categories)
             case .failure(let error):
                 print("Something wrong: \(error.localizedDescription)")
