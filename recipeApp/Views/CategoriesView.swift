@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import Then
-import Combine
 
 protocol CategoriesViewProtocol: AnyObject {
     func showData(data: [Category])
@@ -23,24 +22,20 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     }
     
     private var data: [Category] = []
-    private var storage: FavoritesStorage = FavoritesStorage()
+    private let storage = FavoritesStorage.shared
     var presenter: CategoriesPresenter?
-    private var cancellables = Set<AnyCancellable>()
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupTableViewLayout()
         presenter?.loadCategories()
         view.backgroundColor = .white
-        presenter?.favoritsUpdate
-            .sink { [weak self] updateCategoryId in
-                guard let self = self else { return }
-                self.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
     }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        tableView.reloadData()
+//    }
 
     func setupTableView() {
         view.addSubview(tableView)
@@ -73,14 +68,23 @@ extension CategoriesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
         let category = data[indexPath.row]
-        cell.configure(with: category.strCategory, isFavorite: storage.isCategoryFavorite(category.idCategory))
+        let isFavorite = storage.isCategoryFavorite(category.idCategory)
+        print("Category: \(category.strCategory), isFavorite: \(isFavorite)")
+        cell.configure(with: category.strCategory, isFavorite: isFavorite)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        presenter?.showCategories(for: selectedCategory)
+        presenter?.showDishes(for: selectedCategory)
     }
 }
-    
+extension CategoriesView: CategoryViewDelegate {
+    func didUpdateFavorites(for categoryId: String) {
+        print("Delegate called for category ID: \(categoryId)")
+        let updatedFavorites = FavoritesStorage.shared.isCategoryFavorite(categoryId)
+                print("Updated favorites for category ID: \(categoryId) -> \(updatedFavorites)")
+        tableView.reloadData()
+    }
+}
 

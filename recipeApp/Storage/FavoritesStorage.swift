@@ -7,6 +7,7 @@
 import UIKit
 
 class FavoritesStorage {
+     static let shared = FavoritesStorage()
     private let categoriesKey = "favoritesCategories"
     private let dishesKey = "favoritesDishes"
     

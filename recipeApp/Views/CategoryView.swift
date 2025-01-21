@@ -14,6 +14,10 @@ protocol CategoryViewProtocol: AnyObject {
     func showDishes(dishes: [Dish])
 }
 
+protocol CategoryViewDelegate: AnyObject {
+    func didUpdateFavorites(for categoryId: String)
+}
+
 class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
@@ -24,16 +28,14 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
     }
     
+    var delegate: CategoryViewDelegate?
     private var dishes: [Dish] = []
     var presenter: CategoryPresenter?
-    private let storage: FavoritesStorage = FavoritesStorage()
+    private let storage = FavoritesStorage.shared
     var category: Category?
-    var favoritesUpdated = PassthroughSubject<String, Never>()
-    
-    
-    func configure(with category: Category, presenter: CategoryPresenter) {
+
+    func configure(with category: Category) {
             self.category = category
-            self.presenter = presenter
         }
     
     override func viewDidLoad() {
@@ -71,11 +73,10 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
                    storage.addCategoryToFavorites(category.idCategory)
                }
                setupFavoriteButton()
-               favoritesUpdated.send(category.idCategory)
-        print("Signal sent")
+        print("sending notification")
+        delegate?.didUpdateFavorites(for: category.idCategory)
            }
 }
-
 
 extension CategoryView: CategoryViewProtocol {
     func showDishes(dishes: [Dish]) {
