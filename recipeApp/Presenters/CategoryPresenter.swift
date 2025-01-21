@@ -14,7 +14,7 @@ class CategoryPresenter: CategoryPresenterProtocol {
    
     private unowned let view: CategoryViewProtocol
     private let service: RecipeServiceProtocol
-    private let category: String
+    let category: String
     private let coordinator: RecipeCoordinator?
     
     required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: String, coordinator: RecipeCoordinator?) {

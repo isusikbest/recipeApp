@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol CategoriesViewProtocol: AnyObject {
-    func showData(data: [String])
+    func showData(data: [Category])
 }
 
 class CategoriesView: UIViewController, UITableViewDelegate {
@@ -21,8 +21,8 @@ class CategoriesView: UIViewController, UITableViewDelegate {
       $0.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
     }
     
-    private var data: [String] = []
-    private var storage: FavoritesStorage!
+    private var data: [Category] = []
+    private var storage: FavoritesStorage = FavoritesStorage()
     
     var presenter: CategoriesPresenter?
 
@@ -50,7 +50,7 @@ class CategoriesView: UIViewController, UITableViewDelegate {
 }
         
 extension CategoriesView: CategoriesViewProtocol {
-    func showData(data: [String]) {
+    func showData(data: [Category]) {
         self.data = data
         tableView.reloadData()
     }
@@ -64,19 +64,13 @@ extension CategoriesView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-        
-        cell.configure(with: data[indexPath.row])
+        let category = data[indexPath.row]
+        cell.configure(with: category.strCategory, isFavorite: storage.isCategoryFavorite(category.idCategory))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
         presenter?.showCategories(for: selectedCategory)
-    }
-}
-
-extension String {
-    var id: String {
-        return self
     }
 }

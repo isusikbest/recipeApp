@@ -20,8 +20,8 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
         self.coordinator = coordinator
     }
     
-    func showCategories(for category: String) {
-        coordinator?.showDishesBySelectedCategory(for: category)
+    func showCategories(for category: Category) {
+        coordinator?.showDishesBySelectedCategory(for: category.strCategory)
     }
 
     func loadCategories() {
@@ -29,7 +29,7 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
             switch result {
             case .success(let categories):
                 let categoryNames = categories.map {$0.strCategory}
-                self.view.showData(data: categoryNames)
+                self.view.showData(data: categories)
             case .failure(let error):
                 print("Something wrong: \(error.localizedDescription)")
 //                print(error.description)

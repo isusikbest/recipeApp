@@ -24,14 +24,16 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     }
     
     private var dishes: [Dish] = []
-    
     var presenter: CategoryPresenter?
-    
+    private let storage: FavoritesStorage = FavoritesStorage()
+    private let category = presenter?.category
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         presenter?.loadDishes()
         view.backgroundColor = .white
+        setupFavoriteButton()
     }
     
     func setupCollectionView() {
@@ -41,9 +43,27 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
     }
+    
+    func setupFavoriteButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+                    image: UIImage(systemName: storage.isCategoryFavorite(category.idCategory) ? "heart.fill" : "heart"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(toggleFavorite)
+                )
+    }
+    
+    @objc func toggleFavorite() {
+        if storage.isCategoryFavorite(category.idCategory) {
+                   storage.removeCategoryFromFavorites(category.idCategory)
+               } else {
+                   storage.addCategoryToFavorites(category.idCategory)
+               }
+               setupFavoriteButton()
+           }
 }
+
 
 extension CategoryView: CategoryViewProtocol {
     func showDishes(dishes: [Dish]) {
