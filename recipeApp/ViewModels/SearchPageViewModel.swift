@@ -33,29 +33,32 @@ class SearchDishViewModel {
                 if query.isEmpty {
                     self.errorMessage = "Please enter text"
                     self.shouldShowPlaceholderImage = false
+                    self.filteredItems = []
                     return Just(nil).eraseToAnyPublisher()
                 } else {
                     self.isLoading = true
                     return self.service.searchRecipes(query: query)
-                        .map { Optional($0)}
-                        .catch { _ in Just(nil) }
+                        .map { Optional($0) }
+                        .catch { _ in Just([])}
                         .eraseToAnyPublisher()
                 }
             }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: {  completion in
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
                 self.isLoading = false
                 if case .failure = completion {
                     self.errorMessage = "No results found"
                     self.shouldShowPlaceholderImage = true
                     self.filteredItems = []
                 }
-            }, receiveValue: {  dishes in
+            }, receiveValue: { dishes in
                 self.isLoading = false
                 guard let dishes = dishes else { return }
                 if dishes.isEmpty {
                     self.errorMessage = "No results found"
                     self.shouldShowPlaceholderImage = true
+                    self.filteredItems = []
                 } else {
                     self.shouldShowPlaceholderImage = false
                     self.errorMessage = nil
