@@ -31,9 +31,6 @@ class SearchDishViewModel {
             .removeDuplicates()
             .flatMap { query -> AnyPublisher<[Dish]?, Never> in
                 if query.isEmpty {
-                    self.errorMessage = "Please enter text"
-                    self.shouldShowPlaceholderImage = false
-                    self.filteredItems = []
                     return Just(nil).eraseToAnyPublisher()
                 } else {
                     self.isLoading = true
@@ -44,26 +41,15 @@ class SearchDishViewModel {
                 }
             }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
+            .sink(receiveValue: { dishes in
                 self.isLoading = false
-                if case .failure = completion {
-                    self.errorMessage = "No results found"
-                    self.shouldShowPlaceholderImage = true
-                    self.filteredItems = []
-                }
-            }, receiveValue: { dishes in
-                self.isLoading = false
+                self.errorMessage = "Please enter text"
+                self.shouldShowPlaceholderImage = false
+                self.filteredItems = []
                 guard let dishes = dishes else { return }
-                if dishes.isEmpty {
-                    self.errorMessage = "No results found"
-                    self.shouldShowPlaceholderImage = true
-                    self.filteredItems = []
-                } else {
-                    self.shouldShowPlaceholderImage = false
-                    self.errorMessage = nil
-                    self.filteredItems = dishes
-                }
+                self.errorMessage = dishes.isEmpty ? "No results found" : nil
+                self.shouldShowPlaceholderImage = dishes.isEmpty
+                self.filteredItems = dishes.isEmpty ? [] : dishes
             })
             .store(in: &cancellables)
     }
