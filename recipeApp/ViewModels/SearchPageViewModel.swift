@@ -46,10 +46,11 @@ class SearchDishViewModel {
                 self.errorMessage = "Please enter text"
                 self.shouldShowPlaceholderImage = false
                 self.filteredItems = []
-                guard let dishes = dishes else { return }
-                self.errorMessage = dishes.isEmpty ? "No results found" : nil
-                self.shouldShowPlaceholderImage = dishes.isEmpty
-                self.filteredItems = dishes.isEmpty ? [] : dishes
+                if let dishes = dishes {
+                    self.errorMessage = dishes.isEmpty ? "No results found" : nil
+                    self.shouldShowPlaceholderImage = dishes.isEmpty
+                    self.filteredItems = dishes.isEmpty ? [] : dishes
+                }
             })
             .store(in: &cancellables)
     }
