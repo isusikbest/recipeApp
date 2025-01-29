@@ -27,7 +27,7 @@ extension RecipeApi: TargetType {
         case .getDish:
             return "/lookup.php"
         case .getDishByName:
-            return "search.php?s=Arrabiata"
+            return "/search.php"
         case .getDishByCategory:
             return "/filter.php"
         }
@@ -45,7 +45,7 @@ extension RecipeApi: TargetType {
             return .requestParameters(parameters: ["i": id], encoding:
                 URLEncoding.queryString)
         case .getDishByName(let query):
-            return .requestParameters(parameters: ["query": query], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["s": query], encoding: URLEncoding.queryString)
         case .getDishByCategory(category: let category):
             return .requestParameters(parameters: ["c": category], encoding: URLEncoding.queryString)
         }

@@ -55,18 +55,19 @@ extension CategoriesView: CategoriesViewProtocol {
 }
 
 extension CategoriesView: UITableViewDataSource {
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return data.count
-            
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-            cell.textLabel?.text = data[indexPath.row]
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1.5
-            return cell
-        }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        cell.textLabel?.text = data[indexPath.row]
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1.5
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
         presenter?.showCategories(for: selectedCategory)

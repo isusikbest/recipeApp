@@ -34,11 +34,4 @@ final class ScreensFactory {
         viewcontroller.presenter = presenter
         return viewcontroller
     }
-//    func createSearchPage() -> UIViewController {
-//        let service = RecipeService()
-//        let viewController = SearchView()
-//        let presenter = SearchPresenter(view: viewController, service: service)
-//        viewController.presenter = presenter
-//        return viewController
-//    }
 }
