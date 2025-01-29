@@ -42,14 +42,15 @@ class SearchDishViewModel {
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { dishes in
-                self.isLoading = false
-                self.errorMessage = "Please enter text"
-                self.shouldShowPlaceholderImage = false
-                self.filteredItems = []
                 if let dishes = dishes {
                     self.errorMessage = dishes.isEmpty ? "No results found" : nil
                     self.shouldShowPlaceholderImage = dishes.isEmpty
                     self.filteredItems = dishes.isEmpty ? [] : dishes
+                } else {
+                    self.isLoading = false
+                    self.errorMessage = "Please enter text"
+                    self.shouldShowPlaceholderImage = false
+                    self.filteredItems = []
                 }
             })
             .store(in: &cancellables)
