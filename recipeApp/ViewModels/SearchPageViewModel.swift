@@ -8,17 +8,17 @@ import UIKit
 import Combine
 
 class SearchDishViewModel {
-   
+    
     @Published var searchText: String = ""
     @Published private(set) var filteredItems: [Dish] = []
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var shouldShowPlaceholderImage: Bool = false
-
+    
     private var cancellables = Set<AnyCancellable>()
     private let service: RecipeService
     private let coordinator: SearchDishCoordinator
-
+    
     init(service: RecipeService, coordinator: SearchDishCoordinator) {
         self.service = service
         self.coordinator = coordinator
@@ -29,39 +29,28 @@ class SearchDishViewModel {
         $searchText
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .removeDuplicates()
-            .sink { [weak self] query in
-                self?.performSearch(query: query)
-            }
-            .store(in: &cancellables)
-    }
-
-    private func performSearch(query: String) {
-        guard !query.isEmpty else {
-            self.filteredItems = []
-            self.shouldShowPlaceholderImage = true
-            self.errorMessage = "Please enter text"
-            return
-        }
-
-        isLoading = true
-        service.searchRecipes(query: query)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure = completion {
-                    self?.errorMessage = "No results found"
-                    self?.shouldShowPlaceholderImage = true
-                    self?.filteredItems = []
-                }
-            }, receiveValue: { [weak self] dishes in
-                self?.isLoading = false
-                if dishes.isEmpty {
-                    self?.errorMessage = "No results found"
-                    self?.shouldShowPlaceholderImage = true
+            .flatMap { query -> AnyPublisher<[Dish]?, Never> in
+                if query.isEmpty {
+                    return Just(nil).eraseToAnyPublisher()
                 } else {
-                    self?.shouldShowPlaceholderImage = false
-                    self?.errorMessage = nil
-                    self?.filteredItems = dishes
+                    self.isLoading = true
+                    return self.service.searchRecipes(query: query)
+                        .map { Optional($0) }
+                        .catch { _ in Just([])}
+                        .eraseToAnyPublisher()
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { dishes in
+                if let dishes = dishes {
+                    self.errorMessage = dishes.isEmpty ? "No results found" : nil
+                    self.shouldShowPlaceholderImage = dishes.isEmpty
+                    self.filteredItems = dishes.isEmpty ? [] : dishes
+                } else {
+                    self.isLoading = false
+                    self.errorMessage = "Please enter text"
+                    self.shouldShowPlaceholderImage = false
+                    self.filteredItems = []
                 }
             })
             .store(in: &cancellables)
