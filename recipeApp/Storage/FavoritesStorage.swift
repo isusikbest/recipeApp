@@ -7,7 +7,7 @@
 import UIKit
 
 class FavoritesStorage {
-     static let shared = FavoritesStorage()
+    
     private let categoriesKey = "favoritesCategories"
     private let dishesKey = "favoritesDishes"
     
@@ -24,16 +24,24 @@ class FavoritesStorage {
     }
     
     init() {
-        self.favoritesCategories = FavoritesStorage.loadFavorites(forKey: categoriesKey)
-        self.favoritesDishes = FavoritesStorage.loadFavorites(forKey: dishesKey)
+        favoritesDishes = []
+        favoritesCategories = []
+        
+        favoritesCategories = loadFavorites(forKey: categoriesKey)
+        favoritesDishes = loadFavorites(forKey: dishesKey)
+        
+        saveDishes()
+        saveCategories()
     }
     
     func addCategoryToFavorites(_ id: String) {
         favoritesCategories.insert(id)
+        saveCategories()
     }
     
     func removeCategoryFromFavorites(_ id: String) {
         favoritesCategories.remove(id)
+        saveCategories()
     }
     
     func isCategoryFavorite(_ id: String) -> Bool {
@@ -42,10 +50,12 @@ class FavoritesStorage {
     
     func addDishToFavorites(_ id: String) {
         favoritesDishes.insert(id)
+        saveDishes()
     }
     
     func removeDishFromFavorites(_ id: String) {
         favoritesDishes.remove(id)
+        saveDishes()
     }
     
     func isDishFavorite(_ id: String) -> Bool {
@@ -53,19 +63,19 @@ class FavoritesStorage {
     }
     
     private func saveCategories() {
-        FavoritesStorage.saveFavorites(favoritesCategories, forKey: categoriesKey)
+        saveFavorites(favoritesCategories, forKey: categoriesKey)
     }
     
     private func saveDishes() {
-        FavoritesStorage.saveFavorites(favoritesDishes, forKey: dishesKey)
+        saveFavorites(favoritesDishes, forKey: dishesKey)
     }
     
-    private static func saveFavorites(_ favorites: Set<String>, forKey key: String) {
+    private func saveFavorites(_ favorites: Set<String>, forKey key: String) {
         let favoritesArray = Array(favorites)
         UserDefaults.standard.set(favoritesArray, forKey: key)
     }
     
-    private static func loadFavorites(forKey key: String) -> Set<String> {
+    private func loadFavorites(forKey key: String) -> Set<String> {
         let favoritesArray = UserDefaults.standard.stringArray(forKey: key) ?? []
         return Set(favoritesArray)
     }

@@ -12,14 +12,7 @@ protocol DishViewProtocol: AnyObject {
     func showDish(dish: Dish)
 }
 
-protocol DishViewDelegate: AnyObject {
-    func didUpdateDishFavorites(for dishId: String)
-}
-
 class DishView: UIViewController {
-    
-    var delegate: DishViewDelegate?
-    private let storage = FavoritesStorage.shared
     
     private var strLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 24)
@@ -45,24 +38,20 @@ class DishView: UIViewController {
     
     private func setupFavoriteButton() {
         guard let dish = dish else { return }
+        guard let presenter = presenter else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: storage.isDishFavorite(dish.idMeal) ? "heart.fill" : "heart"),
+            image: UIImage(systemName: presenter.storage.isDishFavorite(dish.idMeal) ? "heart.fill" : "heart"),
             style: .plain,
             target: self,
-            action: #selector(toggleFavorite)
+            action: #selector(switchFavorite)
         )
     }
     
-    @objc private func toggleFavorite() {
-           guard let dish = dish else { return }
-           if storage.isDishFavorite(dish.idMeal) {
-               storage.removeDishFromFavorites(dish.idMeal)
-           } else {
-               storage.addDishToFavorites(dish.idMeal)
-           }
-           setupFavoriteButton()
-           delegate?.didUpdateDishFavorites(for: dish.idMeal)
-       }
+    @objc func switchFavorite() {
+        guard let dish else { return }
+        presenter?.toggleFavorite(with: dish)
+        setupFavoriteButton()
+    }
 
     func setupLayout() {
         strLabel.snp.makeConstraints { make in

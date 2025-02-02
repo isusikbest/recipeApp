@@ -22,9 +22,8 @@ class CategoriesView: UIViewController, UITableViewDelegate {
     }
     
     private var data: [Category] = []
-    private let storage = FavoritesStorage.shared
     var presenter: CategoriesPresenter?
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -64,8 +63,8 @@ extension CategoriesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
         let category = data[indexPath.row]
-        let isFavorite = storage.isCategoryFavorite(category.idCategory)
-        cell.configure(with: category.strCategory, isFavorite: isFavorite)
+        guard  let presenter else { return cell }
+        cell.configure(with: category.strCategory, isFavorite: presenter.storage.isCategoryFavorite(category.idCategory))
         return cell
     }
     
@@ -75,7 +74,7 @@ extension CategoriesView: UITableViewDataSource {
     }
 }
 
-extension CategoriesView: CategoryViewDelegate {
+extension CategoriesView: CategoryPresenterDelegate {
     func didUpdateFavorites(for categoryId: String) {
         tableView.reloadData()
     }

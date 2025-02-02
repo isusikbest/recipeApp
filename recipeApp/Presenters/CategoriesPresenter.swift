@@ -6,7 +6,7 @@
 //
 
 protocol CategoriesPresenterProtocol {
-    init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?)
+    init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?, storage: FavoritesStorage)
 }
 
 class CategoriesPresenter: CategoriesPresenterProtocol {
@@ -14,14 +14,16 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
     private unowned let view: CategoriesViewProtocol
     private let service: RecipeServiceProtocol
     private let coordinator: RecipeCoordinator?
+    let storage: FavoritesStorage
    
-    required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?) {
+    required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?, storage: FavoritesStorage) {
         self.view = view
         self.service = service
         self.coordinator = coordinator
+        self.storage = storage
     }
     
-    func showDishes(for category: Category, delegate: CategoryViewDelegate) {
+    func showDishes(for category: Category, delegate: CategoryPresenterDelegate) {
         coordinator?.showDishesBySelectedCategory(for: category, delegate: delegate)
     }
 

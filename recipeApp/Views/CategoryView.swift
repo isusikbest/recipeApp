@@ -14,10 +14,6 @@ protocol CategoryViewProtocol: AnyObject {
     func showDishes(dishes: [Dish])
 }
 
-protocol CategoryViewDelegate: AnyObject {
-    func didUpdateFavorites(for categoryId: String)
-}
-
 class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
@@ -28,10 +24,8 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         $0.register(DishesByCategoryCell.self, forCellWithReuseIdentifier: "DishesByCategoryCell")
     }
     
-    var delegate: CategoryViewDelegate?
     private var dishes: [Dish] = []
     var presenter: CategoryPresenter?
-    private let storage = FavoritesStorage.shared
     var category: Category?
 
     func configure(with category: Category) {
@@ -57,23 +51,18 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     
     func setupFavoriteButton() {
         guard let category else { return }
+        guard let presenter else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-                    image: UIImage(systemName: storage.isCategoryFavorite(category.idCategory) ? "heart.fill" : "heart"),
+            image: UIImage(systemName: presenter.storage.isCategoryFavorite(category.idCategory) ? "heart.fill" : "heart"),
                     style: .plain,
                     target: self,
-                    action: #selector(toggleFavorite)
+                    action: #selector(switchFavorite)
                 )
     }
     
-    @objc func toggleFavorite() {
-        guard let category else { return }
-        if storage.isCategoryFavorite(category.idCategory) {
-            storage.removeCategoryFromFavorites(category.idCategory)
-        } else {
-            storage.addCategoryToFavorites(category.idCategory)
-        }
+    @objc func switchFavorite() {
+        presenter?.toggleFavorite()
         setupFavoriteButton()
-        delegate?.didUpdateFavorites(for: category.idCategory)
     }
 }
 
@@ -90,10 +79,10 @@ extension CategoryView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as? DishesByCategoryCell else {  fatalError("Failed to dequeue DishesByCategoryCell")
-        }
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as! DishesByCategoryCell
+        guard let presenter = presenter else { return cell }
         let dish = dishes[indexPath.row]
-        let isFavorite = storage.isDishFavorite(dish.idMeal)
+        let isFavorite = presenter.storage.isDishFavorite(dish.idMeal)
         cell.configure(with: dish, isFavorite: isFavorite)
         return cell
     }
@@ -112,7 +101,7 @@ extension CategoryView: UICollectionViewDataSource {
     }
 }
 
-extension CategoryView: DishViewDelegate {
+extension CategoryView: DishPresenterDelegate {
     func didUpdateDishFavorites(for dishId: String) {
         collectionView.reloadData()
     }

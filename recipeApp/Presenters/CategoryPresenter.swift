@@ -7,38 +7,54 @@
 import UIKit
 
 protocol CategoryPresenterProtocol {
-    init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?)
+    init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?, storage: FavoritesStorage)
+}
+
+protocol CategoryPresenterDelegate: AnyObject {
+    func didUpdateFavorites(for categoryId: String)
 }
 
 class CategoryPresenter: CategoryPresenterProtocol {
-   
+    
     private unowned let view: CategoryViewProtocol
     private let service: RecipeServiceProtocol
-    let category: String
+    let category: Category
     private let coordinator: RecipeCoordinator?
+    let storage: FavoritesStorage
+    var delegate: CategoryPresenterDelegate?
     
-    required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?) {
+    required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?, storage: FavoritesStorage) {
         self.view = view
         self.service = service
-        self.category = category.strCategory
+        self.category = category
         self.coordinator = coordinator
+        self.storage = storage
     }
     
-    func showDishes(by id: String, delegate: DishViewDelegate) {
-        coordinator?.showDisheDetails(by: id, delegate: delegate)
+    func toggleFavorite() {
+        if storage.isCategoryFavorite(category.idCategory) {
+            storage.removeCategoryFromFavorites(category.idCategory)
+        } else {
+            storage.addCategoryToFavorites(category.idCategory)
+        }
+        delegate?.didUpdateFavorites(for: category.idCategory)
     }
-    
-    func loadDishes() {
-        service.getRecipes(in: category, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let dishes):
-                    let disheNames = dishes
-                    self?.view.showDishes(dishes: disheNames)
-                case .failure(let error):
-                    print("Failed to fetch meals: \(error)")
+        
+    func showDishes(by id: String, delegate: DishPresenterDelegate) {
+            coordinator?.showDisheDetails(by: id, delegate: delegate)
+        }
+        
+        func loadDishes() {
+            service.getRecipes(in: category.strCategory, completion: { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let dishes):
+                        let disheNames = dishes
+                        self?.view.showDishes(dishes: disheNames)
+                    case .failure(let error):
+                        print("Failed to fetch meals: \(error)")
+                    }
                 }
-            }
-        })
+            })
+        }
     }
-}

@@ -12,7 +12,7 @@ import Then
 
 class SearchDishView: UIViewController {
     
-    var delegate: DishViewDelegate?
+    var delegate: DishPresenterDelegate?
     private let viewModel: SearchDishViewModel
     private var cancellables = Set<AnyCancellable>()
     private let searchBar = UISearchBar()

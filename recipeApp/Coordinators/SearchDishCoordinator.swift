@@ -20,7 +20,7 @@ class SearchDishCoordinator: Coordinator {
         self.screenFactory = screenFactory
     }
     
-    func showDetails(by id: String, delegate: DishViewDelegate) {
+    func showDetails(by id: String, delegate: DishPresenterDelegate) {
         let dishVC = screenFactory.createDishPage(by: id, delegate: delegate)
         navigationController.pushViewController(dishVC, animated: true)
     }
