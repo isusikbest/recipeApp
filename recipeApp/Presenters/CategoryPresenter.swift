@@ -37,7 +37,12 @@ class CategoryPresenter: CategoryPresenterProtocol {
         } else {
             storage.addCategoryToFavorites(category.idCategory)
         }
-        delegate?.didUpdateFavorites(for: category.idCategory)
+    
+        if let delegate = delegate {
+         delegate.didUpdateFavorites(for: category.idCategory)
+        } else {
+            print("We have problem with delegate")
+        }
     }
         
     func showDishes(by id: String, delegate: DishPresenterDelegate) {
