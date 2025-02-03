@@ -21,7 +21,7 @@ class CategoryPresenter: CategoryPresenterProtocol {
     let category: Category
     private let coordinator: RecipeCoordinator?
     let storage: FavoritesStorage
-    var delegate: CategoryPresenterDelegate?
+    weak var delegate: CategoryPresenterDelegate?
     
     required init(view: CategoryViewProtocol, service: RecipeServiceProtocol, category: Category, coordinator: RecipeCoordinator?, storage: FavoritesStorage) {
         self.view = view
@@ -37,7 +37,7 @@ class CategoryPresenter: CategoryPresenterProtocol {
         } else {
             storage.addCategoryToFavorites(category.idCategory)
         }
-    
+        
         if let delegate = delegate {
          delegate.didUpdateFavorites(for: category.idCategory)
         } else {
@@ -45,8 +45,8 @@ class CategoryPresenter: CategoryPresenterProtocol {
         }
     }
         
-    func showDishes(by id: String, delegate: DishPresenterDelegate) {
-            coordinator?.showDisheDetails(by: id, delegate: delegate)
+    func showDishes(by id: String) {
+            coordinator?.showDisheDetails(by: id)
         }
         
         func loadDishes() {

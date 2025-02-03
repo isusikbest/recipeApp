@@ -19,7 +19,7 @@ final class ScreensFactory {
         return viewController
     }
     
-    func createDishesPage(for category: Category, coordinator: RecipeCoordinator, delegate: CategoryPresenterDelegate?) -> UIViewController {
+    func createDishesPage(for category: Category, coordinator: RecipeCoordinator) -> UIViewController {
         let service = RecipeService()
         let viewController = CategoryView()
         let presenter = CategoryPresenter(view: viewController, service: service, category: category, coordinator: coordinator, storage: storage)
@@ -29,7 +29,7 @@ final class ScreensFactory {
         return viewController
     }
     
-    func createDishPage(by id: String, delegate: DishPresenterDelegate?) -> DishView {
+    func createDishPage(by id: String) -> DishView {
         let service = RecipeService()
         let viewcontroller = DishView()
         let presenter = DishPresenter(view: viewcontroller, service: service, id: id, storage: storage)

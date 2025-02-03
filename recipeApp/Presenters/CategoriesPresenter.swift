@@ -9,12 +9,13 @@ protocol CategoriesPresenterProtocol {
     init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?, storage: FavoritesStorage)
 }
 
-class CategoriesPresenter: CategoriesPresenterProtocol {
+class CategoriesPresenter: CategoriesPresenterProtocol, CategoryPresenterDelegate {
    
     private unowned let view: CategoriesViewProtocol
     private let service: RecipeServiceProtocol
     private let coordinator: RecipeCoordinator?
     let storage: FavoritesStorage
+    var presenter: CategoryPresenter?
    
     required init(view: CategoriesViewProtocol, service: RecipeServiceProtocol, coordinator: RecipeCoordinator?, storage: FavoritesStorage) {
         self.view = view
@@ -23,8 +24,13 @@ class CategoriesPresenter: CategoriesPresenterProtocol {
         self.storage = storage
     }
     
-    func showDishes(for category: Category, delegate: CategoryPresenterDelegate) {
-        coordinator?.showDishesBySelectedCategory(for: category, delegate: delegate)
+    func didUpdateFavorites(for categoryId: String) {
+        self.view.reloadTableView()
+    }
+    
+    func showDishes(for category: Category) {
+        coordinator?.showDishesBySelectedCategory(for: category)
+        presenter?.delegate = self
     }
 
     func loadCategories() {

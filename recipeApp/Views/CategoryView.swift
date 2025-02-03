@@ -89,7 +89,7 @@ extension CategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDish = dishes[indexPath.row]
-        presenter?.showDishes(by: selectedDish.idMeal, delegate: self)
+        presenter?.showDishes(by: selectedDish.idMeal)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -98,11 +98,5 @@ extension CategoryView: UICollectionViewDataSource {
            let spacing: CGFloat = 10
            let calculatedWidth = (totalWidth - (numberOfColumns - 1) * spacing) / numberOfColumns
            return CGSize(width: calculatedWidth, height: calculatedWidth)
-    }
-}
-
-extension CategoryView: DishPresenterDelegate {
-    func didUpdateDishFavorites(for dishId: String) {
-        collectionView.reloadData()
     }
 }

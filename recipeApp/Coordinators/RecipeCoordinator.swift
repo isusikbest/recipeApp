@@ -24,13 +24,13 @@ class RecipeCoordinator: Coordinator {
         navigationController.pushViewController(categorisVC, animated: true)
     }
     
-    func showDishesBySelectedCategory(for category: Category, delegate: CategoryPresenterDelegate) {
-        let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self, delegate: delegate)
+    func showDishesBySelectedCategory(for category: Category) {
+        let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self)
         navigationController.pushViewController(dishesVC, animated: true)
     }
     
-    func showDisheDetails(by id: String, delegate: DishPresenterDelegate) {
-        let dishVC = screensFactory.createDishPage(by: id, delegate: delegate)
+    func showDisheDetails(by id: String) {
+        let dishVC = screensFactory.createDishPage(by: id)
         navigationController.pushViewController(dishVC, animated: true)
     }
 }

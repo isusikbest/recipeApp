@@ -11,6 +11,7 @@ import Then
 
 protocol CategoriesViewProtocol: AnyObject {
     func showData(data: [Category])
+    func reloadTableView()
 }
 
 class CategoriesView: UIViewController, UITableViewDelegate {
@@ -30,6 +31,10 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         setupTableViewLayout()
         presenter?.loadCategories()
         view.backgroundColor = .white
+    }
+    
+    func reloadTableView() {
+        self.tableView.reloadData()
     }
 
     func setupTableView() {
@@ -70,12 +75,6 @@ extension CategoriesView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        presenter?.showDishes(for: selectedCategory, delegate: self)
-    }
-}
-
-extension CategoriesView: CategoryPresenterDelegate {
-    func didUpdateFavorites(for categoryId: String) {
-        tableView.reloadData()
+        presenter?.showDishes(for: selectedCategory)
     }
 }
