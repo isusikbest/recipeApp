@@ -10,7 +10,8 @@ import SnapKit
 import Then
 
 protocol CategoriesViewProtocol: AnyObject {
-    func showData(data: [String])
+    func showData(data: [Category])
+    func reloadTableView()
 }
 
 class CategoriesView: UIViewController, UITableViewDelegate {
@@ -21,10 +22,9 @@ class CategoriesView: UIViewController, UITableViewDelegate {
       $0.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
     }
     
-    private var data: [String] = []
-    
+    private var data: [Category] = []
     var presenter: CategoriesPresenter?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -33,10 +33,15 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         view.backgroundColor = .white
     }
     
+    func reloadTableView() {
+        self.tableView.reloadData()
+    }
+
     func setupTableView() {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(CategoryCell.self, forCellReuseIdentifier: "CategoryCell")
     }
     
     func setupTableViewLayout() {
@@ -46,9 +51,9 @@ class CategoriesView: UIViewController, UITableViewDelegate {
         
     }
 }
-        
+
 extension CategoriesView: CategoriesViewProtocol {
-    func showData(data: [String]) {
+    func showData(data: [Category]) {
         self.data = data
         tableView.reloadData()
     }
@@ -61,15 +66,15 @@ extension CategoriesView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 1.5
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
+        let category = data[indexPath.row]
+        guard  let presenter else { return cell }
+        cell.configure(with: category.strCategory, isFavorite: presenter.storage.isCategoryFavorite(category.idCategory))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = data[indexPath.row]
-        presenter?.showCategories(for: selectedCategory)
+        presenter?.showDishes(for: selectedCategory)
     }
 }

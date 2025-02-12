@@ -53,7 +53,6 @@ class RecipeService: RecipeServiceProtocol {
     
     func getDish(by id: String, completion: @escaping (Result<Dish, Error>) -> Void) {
         provider.request(.getDish(id: id)) { result in
-            
             do {
                 let dishResponse = try result
                     .get()

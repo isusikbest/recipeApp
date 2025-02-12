@@ -56,7 +56,7 @@ class SearchDishViewModel {
             .store(in: &cancellables)
     }
     
-    func showDetail(by id: String) {
-        coordinator.showDetails(by: id)
+    func showDetail(by id: String, delegate: DishPresenterDelegate) {
+        coordinator.showDetails(by: id, delegate: delegate)
     }
 }

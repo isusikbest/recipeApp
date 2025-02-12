@@ -7,19 +7,35 @@
 import UIKit
 
 protocol DishPresenterProtocol {
-    init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String)
+    init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String, storage: FavoritesStorage)
+}
+
+protocol DishPresenterDelegate: AnyObject {
+    func didUpdateDishFavorites(for dishId: String)
 }
 
 class DishPresenter: DishPresenterProtocol {
     
+    var delegate: DishPresenterDelegate?
     private unowned var view: DishViewProtocol
     private let service: RecipeServiceProtocol
     private let id: String
+    let storage: FavoritesStorage
     
-    required init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String) {
+    required init(view: DishViewProtocol, service: RecipeServiceProtocol, id: String, storage: FavoritesStorage) {
         self.view = view
         self.service = service
         self.id = id
+        self.storage = storage
+    }
+    
+    func toggleFavorite(with dish: Dish) {
+        if storage.isDishFavorite(dish.idMeal) {
+            storage.removeDishFromFavorites(dish.idMeal)
+        } else {
+            storage.addDishToFavorites(dish.idMeal)
+        }
+        delegate?.didUpdateDishFavorites(for: dish.idMeal)
     }
     
     func loadDish() {

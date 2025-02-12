@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Combine
 
 class RecipeCoordinator: Coordinator {
+    
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
     let screensFactory: ScreensFactory
@@ -22,10 +24,9 @@ class RecipeCoordinator: Coordinator {
         navigationController.pushViewController(categorisVC, animated: true)
     }
     
-    func showDishesBySelectedCategory(for category: String) {
+    func showDishesBySelectedCategory(for category: Category) {
         let dishesVC = screensFactory.createDishesPage(for: category, coordinator: self)
         navigationController.pushViewController(dishesVC, animated: true)
-       
     }
     
     func showDisheDetails(by id: String) {

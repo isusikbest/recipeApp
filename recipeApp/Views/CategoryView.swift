@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 protocol CategoryViewProtocol: AnyObject {
     func showDishes(dishes: [Dish])
@@ -24,14 +25,19 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
     }
     
     private var dishes: [Dish] = []
-    
     var presenter: CategoryPresenter?
+    var category: Category?
+
+    func configure(with category: Category) {
+            self.category = category
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         presenter?.loadDishes()
         view.backgroundColor = .white
+        setupFavoriteButton()
     }
     
     func setupCollectionView() {
@@ -41,7 +47,22 @@ class CategoryView: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+    }
+    
+    func setupFavoriteButton() {
+        guard let category else { return }
+        guard let presenter else { return }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: presenter.storage.isCategoryFavorite(category.idCategory) ? "heart.fill" : "heart"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(switchFavorite)
+                )
+    }
+    
+    @objc func switchFavorite() {
+        presenter?.toggleFavorite()
+        setupFavoriteButton()
     }
 }
 
@@ -58,9 +79,11 @@ extension CategoryView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as? DishesByCategoryCell else {  fatalError("Failed to dequeue DishesByCategoryCell")
-        }
-        cell.configure(with: dishes[indexPath.row])
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishesByCategoryCell", for: indexPath) as! DishesByCategoryCell
+        guard let presenter = presenter else { return cell }
+        let dish = dishes[indexPath.row]
+        let isFavorite = presenter.storage.isDishFavorite(dish.idMeal)
+        cell.configure(with: dish, isFavorite: isFavorite)
         return cell
     }
     

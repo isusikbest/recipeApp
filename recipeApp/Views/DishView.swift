@@ -24,7 +24,7 @@ class DishView: UIViewController {
         $0.textColor = .black
         $0.textAlignment = .center
     }
-    
+    var dish: Dish?
     var presenter: DishPresenter?
   
     override func viewDidLoad() {
@@ -36,6 +36,23 @@ class DishView: UIViewController {
         presenter?.loadDish()
     }
     
+    private func setupFavoriteButton() {
+        guard let dish = dish else { return }
+        guard let presenter = presenter else { return }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: presenter.storage.isDishFavorite(dish.idMeal) ? "heart.fill" : "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(switchFavorite)
+        )
+    }
+    
+    @objc func switchFavorite() {
+        guard let dish else { return }
+        presenter?.toggleFavorite(with: dish)
+        setupFavoriteButton()
+    }
+
     func setupLayout() {
         strLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -49,7 +66,9 @@ class DishView: UIViewController {
 
 extension DishView: DishViewProtocol {
     func showDish(dish: Dish) {
+        self.dish = dish
         self.strLabel.text = dish.strMeal
         self.idLabel.text = dish.idMeal
+        setupFavoriteButton()
     }
 }

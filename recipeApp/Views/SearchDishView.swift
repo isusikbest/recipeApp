@@ -12,6 +12,7 @@ import Then
 
 class SearchDishView: UIViewController {
     
+    var delegate: DishPresenterDelegate?
     private let viewModel: SearchDishViewModel
     private var cancellables = Set<AnyCancellable>()
     private let searchBar = UISearchBar()
@@ -126,8 +127,9 @@ extension SearchDishView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let delegate = delegate else { return }
         let selectedDish = viewModel.filteredItems[indexPath.row]
-        viewModel.showDetail(by: selectedDish.idMeal)
+        viewModel.showDetail(by: selectedDish.idMeal, delegate: delegate)
     }
 }
 
